@@ -7,17 +7,16 @@
 <title>Second Take</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;600;700&family=Caveat:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Lexend:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@600&display=swap">
 <style>
 /* Layout: consumer product site with hash-routed views (home, practice, progress, pricing, faq, promise, founder). Ink-navy UI, amber "marker" accent, serif for the human voice of the coach. */
 :root{
-  /* Take Two: white, near-black ink, cobalt, highlighter yellow, red REC. Contrast on white: ink 19:1, ink-2 10:1, accent 7.4:1 */
-  --paper:#F3F4F8; --sheet:#FFFFFF; --ink:#0B0B14; --ink-2:#3A3D4F; --rule:#C7CAD6; --band:#0B0B14; --band-ink:#FFFFFF; --line:#DADDE7;
-  --accent:#2438F5; --accent-soft:#E2E6FF; --ok:#0B7A3B; --ok-soft:#DBF5E4; --warn:#C01E1E; --warn-soft:#FFE2DF; color-scheme:light;
-  --hi:#FFE14A; --hl:#FFE14A; --hl-soft:#FFF4B8; --rec:#E0242B; --margin:#E0242B; --grid:#E9EBF3;
-  --f-display:"Big Shoulders Display","Oswald","Arial Narrow",Impact,sans-serif;
-  --f-body:"Newsreader",Georgia,"Times New Roman",serif;
-  --f-ui:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  /* White, high-contrast learning theme (single light theme by request). Text contrast on white: ink 18:1, ink-2 11:1, accent 7:1 */
+  --paper:#F3F5F8; --sheet:#FFFFFF; --ink:#0B1220; --ink-2:#2F3B4C; --rule:#A3AEBD; --band:#F3F5F8; --band-ink:#0B1220;
+  --accent:#8A4B00; --accent-soft:#FFE6BF; --ok:#14632F; --ok-soft:#DCF2E3; --warn:#A3200F; --warn-soft:#FDE1DC; color-scheme:light;
+  --f-display:"Sora",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Literata",Georgia,"Times New Roman",serif;
+  --f-ui:"Lexend",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
@@ -356,151 +355,6 @@ footer a:hover{color:var(--accent)}
 footer .legal{grid-column:1/-1;font-family:var(--f-mono);font-size:.72rem;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:1rem}
 @media (max-width:760px){footer .wrap{grid-template-columns:1fr 1fr}footer .wrap>div:first-child{grid-column:1/-1}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* ===== Take Two theme: film-slate stripes, highlighter yellow, cobalt, cinema-poster type ===== */
-body{font-family:var(--f-ui);font-size:17px;line-height:1.6}
-h1,h2,.ftitle{font-family:var(--f-display);font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:.94}
-h1{font-size:clamp(3rem,7.4vw,5.6rem)}
-h2{font-size:clamp(2.1rem,4.6vw,3.4rem)}
-h3{font-family:var(--f-ui);font-weight:800;letter-spacing:-.012em;font-size:1.08rem}
-.label{color:var(--accent);font-weight:700;letter-spacing:.12em}
-::selection{background:var(--hi);color:var(--ink)}
-mark,.hl{background:linear-gradient(100deg,transparent 0 1.5%,var(--hi) 1.5% 98.5%,transparent 98.5%);color:inherit;padding:0 .14em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hero-copy mark{background:linear-gradient(100deg,transparent 0 1.5%,var(--hi) 1.5% 98.5%,transparent 98.5%);background-repeat:no-repeat;background-size:100% 62%;background-position:0 80%;color:inherit;padding:0 .14em}
-.hero-copy .sub mark{background-size:100% 50%;background-position:0 92%}
-
-/* nav */
-nav.top{background:var(--sheet);border-bottom:2px solid var(--ink)}
-.brand{font-family:var(--f-display);font-weight:900;font-size:1.45rem;text-transform:uppercase;letter-spacing:.02em}
-.brand i{background:var(--hi);color:var(--ink);border:2px solid var(--ink);border-radius:6px;font-family:var(--f-display);font-weight:900;font-size:1rem;box-shadow:2px 2px 0 var(--ink)}
-.links a{font-weight:600;color:var(--ink-2)}
-.links a.on{color:var(--ink);border-bottom:3px solid var(--accent)}
-.cta-s{font-family:var(--f-ui);font-weight:800;background:var(--accent);color:#fff;border:2px solid var(--ink);border-radius:8px;box-shadow:3px 3px 0 var(--ink)}
-.cta-s:hover{background:var(--accent);transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-.userchip{border:2px solid var(--ink);font-weight:700}
-.userchip .av{background:var(--hi);border:1.5px solid var(--ink)}
-
-/* buttons: tactile, hard shadow */
-.btn{font-family:var(--f-ui);font-weight:800;font-size:1rem;background:var(--accent);color:#fff;border:2px solid var(--ink);border-radius:10px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s,background .12s}
-.btn:hover{background:var(--accent);color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-.btn.alt{background:var(--sheet);color:var(--ink);border:2px solid var(--ink)}
-.btn.alt:hover{background:var(--hi);color:var(--ink)}
-.btn.sm{font-size:.86rem;padding:.45rem .85rem;box-shadow:3px 3px 0 var(--ink)}
-.btn[disabled]{background:var(--paper);color:var(--ink-2);box-shadow:none;transform:none}
-.ghost{border:2px solid var(--ink);border-radius:8px;font-weight:700;background:var(--sheet)}
-.ghost:hover{background:var(--hi)}
-
-/* hero on graph paper */
-.heroband{background-color:var(--sheet);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:30px 30px;border-bottom:2px solid var(--ink)}
-.hero-copy{gap:1.2rem}
-.hero-copy .sub{font-size:1.22rem;color:var(--ink-2);max-width:46ch}
-.stamp{display:inline-flex;align-items:center;gap:.5rem;width:fit-content;font:700 .78rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--rec);border:2px solid var(--rec);border-radius:6px;padding:.32rem .65rem;transform:rotate(-2.5deg);background:var(--sheet)}
-.stamp i{width:.6rem;height:.6rem;border-radius:50%;background:var(--rec);animation:pulse 1.2s infinite}
-.democard{border:2px solid var(--ink);border-radius:14px;box-shadow:9px 9px 0 var(--ink);padding:0;overflow:hidden;gap:0}
-.democard>*:not(.slate){margin-inline:1.2rem}
-.democard>.slate+*{margin-top:1rem}
-.democard>*:last-child{margin-bottom:1.2rem}
-.democard>*+*{margin-top:.85rem}
-.slate{height:22px;background:repeating-linear-gradient(-45deg,var(--ink) 0 16px,var(--sheet) 16px 32px);border-bottom:2px solid var(--ink)}
-.democard .qline{background:var(--paper);border:1.5px solid var(--ink);font-family:var(--f-body);font-size:1.08rem}
-.demo-score,.scorebox .big,.stat b,.price{font-family:var(--f-display);font-weight:900;letter-spacing:.01em}
-.demo-score{font-size:2.8rem;line-height:1}
-.scorebox .big{font-size:3.6rem;color:var(--ink)}
-
-/* section rhythm */
-.sec+.sec{border-top:2px solid var(--ink)}
-.sec-head p{color:var(--ink-2)}
-.pains .q{font-family:var(--f-body);font-size:1.3rem}
-.pains>div{border-left:6px solid var(--hi);padding-left:1rem}
-
-/* cards: index cards with hard shadows (interactive ones lift) */
-.types a,.cocard,.qcard,.plan,.steps>div,.lcard{border:2px solid var(--ink);border-radius:14px;box-shadow:5px 5px 0 var(--ink)}
-.types a,.cocard{transition:transform .12s,box-shadow .12s}
-.types a:hover,.cocard:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink);border-color:var(--ink)}
-.types a{background:var(--sheet)}
-.types .go{color:var(--accent);font-weight:800}
-.types .tl{color:var(--accent);font-weight:700}
-.steps>div{background:var(--sheet)}
-.steps .n{font-family:var(--f-display);font-size:1.5rem;font-weight:900;text-transform:uppercase;color:var(--accent);letter-spacing:.02em}
-.stat,.panel{border:2px solid var(--ink);border-radius:14px}
-.plan.hl{background:var(--hi)}
-.tag.live{background:var(--ink);color:var(--hi)}
-
-/* practice app: a slate on top */
-.app{border:2px solid var(--ink);border-radius:16px;box-shadow:8px 8px 0 var(--ink)}
-.app::before{content:"";display:block;height:14px;background:repeating-linear-gradient(-45deg,var(--ink) 0 14px,var(--sheet) 14px 28px);border-bottom:2px solid var(--ink)}
-.tabs{border-bottom:2px solid var(--ink);background:var(--sheet)}
-.tabs button{font-family:var(--f-ui);font-weight:800;color:var(--ink-2)}
-.tabs button[aria-selected="true"]{background:var(--hi);color:var(--ink);border-bottom-color:var(--ink)}
-.work{border-right:2px solid var(--ink)}
-@media (max-width:880px){.work{border-right:0;border-bottom:2px solid var(--ink)}}
-.prompt{border:2px solid var(--ink);border-radius:12px;background:var(--paper)}
-.prompt .q{font-family:var(--f-body);font-size:1.3rem;line-height:1.38}
-.pill{border:1.5px solid var(--ink);color:var(--ink);background:var(--sheet);font-weight:600}
-.breakit{border-top:2px solid var(--ink)}
-.disclaim{border-top:2px solid var(--ink)}
-textarea,#answer{border:2px solid var(--ink);border-radius:12px}
-textarea:focus,.fld input:focus,.banksearch input:focus,.cosearch:focus,.ask-row input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);outline:none}
-.fld input,.banksearch input,.cosearch,.ask-row input{border:2px solid var(--ink)}
-.mic{border:2px solid var(--ink);font-weight:800;box-shadow:2px 2px 0 var(--ink)}
-.mic[aria-pressed="true"]{background:var(--rec);border-color:var(--ink)}
-.chip{border:2px solid var(--ink);font-weight:700}
-.chip:hover{background:var(--hi);border-color:var(--ink)}
-.chip.on{background:var(--ink);color:var(--hi);border-color:var(--ink)}
-.seg{border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
-.seg button{font-weight:800}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--hi)}
-.rubric li{border-radius:8px}
-.rubric li.y{background:var(--ok-soft)}
-.askbox{border:2px solid var(--ink);border-radius:12px;background:var(--paper)}
-.cobrief{border:2px solid var(--ink);border-radius:14px;background:var(--paper)}
-.disc{border:2px solid var(--ink)}
-
-/* coaching question: a director's note card */
-.coachq{background:var(--ink);color:#fff;border-radius:12px;box-shadow:5px 5px 0 var(--hi)}
-.coachq .label{color:var(--hi)}
-.coachq p{font-family:var(--f-body);font-size:1.12rem}
-
-/* expert review */
-.expert{border-top:2px solid var(--ink)}
-.xs .bar i{border:1.5px solid var(--ink)}
-.xs .bar i.on{background:var(--accent);border-color:var(--ink)}
-.xfix{border:1.5px solid var(--ok)}
-
-/* promise band: dark, with a hazard-slate edge */
-.band{background:var(--ink);color:#fff;border:0}
-.band::before{content:"";display:block;height:16px;background:repeating-linear-gradient(-45deg,var(--hi) 0 16px,var(--ink) 16px 32px)}
-.band h2{color:#fff}
-.band .label{color:var(--hi)}
-.band .muted{color:#C8CBDA}
-.band .nevers .x{color:var(--hi);font-size:1.1rem}
-.band a.btn{background:var(--hi);color:var(--ink);border-color:var(--hi);box-shadow:4px 4px 0 #fff}
-.band a.btn:hover{background:var(--hi);color:var(--ink);box-shadow:6px 6px 0 #fff}
-
-/* comparison, quotes, founder */
-table.cmp{border:2px solid var(--ink)}
-table.cmp th{background:var(--ink);color:#fff}
-table.cmp tr.us td{background:var(--hi)}
-.pull{border-left:8px solid var(--hi);font-family:var(--f-body)}
-.fname{border:2px solid var(--ink);background:var(--paper)}
-.letter p:nth-child(2)::first-letter{color:var(--accent);font-family:var(--f-display);font-weight:900}
-.final h2{font-size:clamp(2.4rem,6vw,4.4rem)}
-
-/* FAQ */
-.faq details{border:2px solid var(--ink);border-radius:12px}
-.faq details[open]{box-shadow:4px 4px 0 var(--hi)}
-.faq summary{font-family:var(--f-ui);font-weight:800}
-
-/* footer: dark credits roll */
-footer{background:var(--ink);color:#fff;border-top:0;margin-top:0}
-footer::before{content:"";display:block;height:14px;background:repeating-linear-gradient(-45deg,var(--sheet) 0 14px,var(--ink) 14px 28px)}
-footer a,footer .brand{color:#fff}
-footer a:hover{color:var(--hi)}
-footer h4{color:var(--hi)}
-footer .muted,footer .legal{color:#B8BBCB}
-footer .legal{border-top:1px solid #2C3045}
-@media (prefers-reduced-motion:reduce){.stamp i{animation:none}}
 </style>
 </head>
 <body>
@@ -525,18 +379,16 @@ footer .legal{border-top:1px solid #2C3045}
 
 <!-- ============ HOME ============ -->
 <main data-view="home">
-  <div class="heroband"><div class="wrap">
+  <div class="wrap">
     <section class="hero">
       <div class="hero-copy">
-        <span class="stamp" aria-hidden="true"><i></i>Rec · Take 02</span>
         <p class="label">For MBA placement prep · every vertical</p>
-        <h1>Find <mark>the gap</mark> in your answer before the interviewer does.</h1>
+        <h1>Find the gap in your answer before the interviewer does.</h1>
         <p class="sub">Pick your field, then answer a practice prompt out loud or in writing. Second Take shows you <mark>exactly which part of your structure is missing</mark>, asks you one question, and lets you take it again.</p>
         <div class="cta-row"><a class="btn" href="#practice">Start practising, free</a><a class="btn alt" href="#how-scroll" id="seehow">See how it works</a></div>
         <p class="fine">Free. No CV upload. Your profile and answers stay on your device.</p>
       </div>
       <div class="democard" aria-label="Example feedback">
-        <div class="slate" aria-hidden="true"></div>
         <div class="row"><span class="label">Example feedback · product design</span><span class="pill">Take 1</span></div>
         <p class="qline">Design a product that helps first-year MBA students build friendships in their first month.</p>
         <div class="row"><span class="demo-score">5 <span style="font-size:1rem;color:var(--ink-2)">/ 8</span></span><span class="muted" style="font-size:.88rem">structure elements covered</span></div>
@@ -549,7 +401,7 @@ footer .legal{border-top:1px solid #2C3045}
         <div class="coachq"><span class="label">Your next question</span><p>What could go wrong with your idea, and what would you give up?</p></div>
       </div>
     </section>
-  </div></div>
+  </div>
 
   <section class="sec wrap">
     <div class="sec-head"><p class="label">Sound familiar?</p><h2>You've practised for weeks. You still don't know if your answers are good.</h2></div>
