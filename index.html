@@ -511,6 +511,17 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
 .breakit{background:#F7F7F5;border-top:1px solid var(--line)}
 .disclaim{border-top:1px solid var(--line)}
 .cobrief{background:#F5F5F3;border:1px solid var(--line)!important;border-left:3px solid var(--slate)!important}
+
+.xconnect{display:grid;grid-template-columns:1fr;gap:.8rem}
+.xopt{background:#fff;border:1px solid var(--line);padding:1rem;display:grid;gap:.55rem}
+.xopt h4{margin:0;font:500 1rem var(--f-display)}
+.xopt p{font-size:.92rem;color:var(--ink-2)}
+.xopt form{display:flex;gap:.5rem;flex-wrap:wrap}
+.xopt input{flex:1;min-width:0;font:inherit;font-size:.92rem;padding:.55rem .8rem;border:1px solid #D3D7DC;border-radius:14px;background:#fff;color:var(--ink)}
+.xopt input:focus{border-color:var(--slate);box-shadow:0 0 0 4px rgba(110,140,153,.18);outline:none}
+.xerr{color:var(--warn)}
+.claudeconn{display:grid;gap:.4rem;border-top:1px solid var(--line);padding-top:.9rem;font-size:.92rem}
+.claudeconn:empty{display:none}
 </style>
 </head>
 <body>
@@ -777,6 +788,7 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
             <datalist id="colleges"><option value="Great Lakes Institute of Management"><option value="IIM Ahmedabad"><option value="IIM Bangalore"><option value="IIM Calcutta"><option value="IIM Lucknow"><option value="IIM Kozhikode"><option value="IIM Indore"><option value="ISB Hyderabad"><option value="XLRI Jamshedpur"><option value="FMS Delhi"><option value="SPJIMR Mumbai"><option value="MDI Gurgaon"><option value="IIFT Delhi"><option value="NMIMS Mumbai"><option value="SIBM Pune"><option value="JBIMS Mumbai"><option value="SJMSOM, IIT Bombay"><option value="DMS, IIT Delhi"><option value="TISS Mumbai"><option value="SCMHRD Pune"></datalist></div>
           <div class="fld"><label for="lbatch">Programme and batch</label><input id="lbatch" type="text" placeholder="e.g. PGPM 2025–26"><span class="err" id="lbatcherr" aria-live="polite"></span></div>
           <div class="lact"><button class="btn" type="submit" id="lsubmit">Continue</button><button class="ghost" type="button" id="lsignout" hidden>Sign out on this device</button><span class="xnote" id="lnote" hidden></span></div>
+        <div class="claudeconn" id="claudeconn"></div>
         </form>
       </div>
       <aside class="lwhy">
@@ -853,6 +865,7 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
         <details><summary>Why won't it just show me a good answer?</summary><p>Because reading a polished answer feels like learning but isn't. You get better by finding your own gap and fixing it, which is exactly what each take makes you do.</p></details>
         <details><summary>Where are my profile and answers stored?</summary><p>Only in your own browser on this device. When you sign in, your name, email, college and batch are saved there, next to your practice takes. Second Take has no server, so nothing is sent to us. There&#39;s no password, so sign out on shared computers. You can edit your profile, sign out, or clear your progress any time.</p></details>
         <details><summary>How does "Speak your answer" work?</summary><p>Where your browser allows it, for example Chrome or Edge on a site you open directly, Second Take listens and types your words as you speak. Where the microphone is blocked, including inside some embedded viewers, the Speak button switches to your device's own voice typing: Windows + H on Windows, the Fn key twice on a Mac, or the microphone key on a phone keyboard. Either way, your answer counts as spoken and gets a filler-word check.</p></details>
+        <details><summary>How do I get the expert review on 2secondtake.com?</summary><p>Connect your own Claude, in one of two ways. Choose &ldquo;Open in Claude&rdquo; to copy your answer and open Second Take inside Claude, where the review runs free on your Claude account. Or paste an Anthropic API key from console.anthropic.com to run the review right on the website; the key stays in your browser, is sent only to Anthropic, and usage is billed to your Anthropic account. You can disconnect it any time from your profile.</p></details>
         <details><summary>Is the feedback from AI?</summary><p>Yes, in two layers. An instant checklist marks which parts of a strong answer you covered and shows the words that counted. Then an expert review by Claude reads your answer against what top interviewers expect in that domain, such as the 5 Cs for a credit case or a MECE profit tree for a business case. It quotes your exact words for every point, checks your numbers against the case facts, and gives a follow-up question and a drill. Quotes are checked against your answer, and any that don&#39;t match are dropped. The review never rewrites your answer. It runs on your own Claude account, so Claude asks your permission the first time.</p></details>
         <details><summary>Can I ask the interviewer questions?</summary><p>In case rounds (consulting, marketing, operations, HR and credit cases), yes: up to two, just like clarifying with a real interviewer. Ask about the goal, costs, prices, competitors and so on. If the case doesn't have that information, the coach tells you to make an assumption. Asking a good question counts toward "Clarify the goal and scope".</p></details>
         <details><summary>Can it replace mocks with seniors?</summary><p>No. Seniors judge depth, insight and presence, which Second Take can't. Use it to fix structural gaps so your senior mock goes on the harder stuff.</p></details>
@@ -1631,8 +1644,41 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
 
 
   // ---- expert review (Claude, via the sample capability) ----
-  let samplerP=null, xctl=null, expertOff=false;
-  function getSampler(){if(!samplerP)samplerP=(window.claude&&typeof window.claude.use==="function")?window.claude.use("sample").catch(()=>null):Promise.resolve(null);return samplerP}
+  let samplerP=null, xctl=null, expertOff=false, sampleViaKey=false;
+  const AKEY="secondtake.apikey", CLAUDE_URL="https://claude.ai/artifact/BJE9AKznFNBm6fFyAwAMVn";
+  function getKey(){try{return localStorage.getItem(AKEY)||""}catch(e){return ""}}
+  function setKey(k){try{k?localStorage.setItem(AKEY,k):localStorage.removeItem(AKEY)}catch(e){}}
+  function claudeSampler(){if(!samplerP)samplerP=(window.claude&&typeof window.claude.use==="function")?window.claude.use("sample").catch(()=>null):Promise.resolve(null);return samplerP}
+  async function getSampler(){const c=await claudeSampler();if(c)return c;const k=getKey();return k?keySampler(k):null}
+  function keySampler(key){
+    async function call(input,opts){opts=opts||{};
+      const model=opts.modelTier==="quick"?"claude-haiku-5-5":"claude-sonnet-5-5";
+      const content=typeof input==="string"?input:input.map(m=>m.content).join("\n\n");
+      let res;
+      try{res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",signal:opts.signal,headers:{"content-type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model,max_tokens:2500,messages:[{role:"user",content}]})})}
+      catch(e){throw {code:e&&e.name==="AbortError"?"cancelled":"upstream_error",message:String(e)}}
+      if(!res.ok){const c=(res.status===401||res.status===403)?"key_invalid":res.status===429?"rate_limited":res.status===400?"invalid_request":"upstream_error";let m="";try{m=(await res.json()).error.message}catch(_){}throw {code:c,message:m}}
+      const d=await res.json();const text=(d.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("");
+      if(!text) throw {code:"empty_completion"};
+      return {text,truncated:d.stop_reason==="max_tokens"};
+    }
+    const f=(i,o)=>call(i,o);
+    f.json=async(i,o)=>{const r=await call(typeof i==="string"?i+"\n\nReply with only the JSON, no other text.":i,o);const t=r.text.trim();const P=x=>{try{return JSON.parse(x)}catch(e){return undefined}};
+      let v=P(t);if(v===undefined){const m=t.match(/```(?:json)?\s*([\s\S]*?)```/);if(m)v=P(m[1])}
+      if(v===undefined){const a=[t.indexOf("{"),t.indexOf("[")].filter(x=>x>=0);const b=Math.max(t.lastIndexOf("}"),t.lastIndexOf("]"));if(a.length&&b>Math.min(...a))v=P(t.slice(Math.min(...a),b+1))}
+      if(v===undefined) throw {code:"invalid_json",text:t};return v};
+    f.viaKey=true;return f;
+  }
+  function renderConnect(box,text,hits){
+    box.innerHTML=xHead("Connect Claude")+'<p class="xnote">Get the expert review by connecting your own Claude. Choose either option.</p>'+
+      '<div class="xconnect"><div class="xopt"><h4>Open in Claude</h4><p>Free with a Claude account. We copy the prompt and your answer, then open Second Take inside Claude. Paste your answer there to get the review.</p><button type="button" class="btn sm" data-xopen>Copy answer and open in Claude</button><p class="xsmall" data-xcopied hidden>Copied. Paste it into the answer box in Claude.</p></div>'+
+      '<div class="xopt"><h4>Use your Claude API key</h4><p>Paste a key from console.anthropic.com. It stays in this browser and is sent only to Anthropic. Usage is billed to your Anthropic account.</p><form data-xkey><input type="password" autocomplete="off" placeholder="sk-ant-…" aria-label="Your Anthropic API key"><button type="submit" class="btn sm">Connect and review</button></form><p class="xsmall xerr" data-xkeyerr hidden></p></div></div>';
+    box.querySelector("[data-xopen]").onclick=()=>{const t="Practice prompt: "+current+"\n\nMy answer:\n"+text;const done=()=>{box.querySelector("[data-xcopied]").hidden=false};
+      try{navigator.clipboard.writeText(t).then(done,done)}catch(e){done()}window.open(CLAUDE_URL,"_blank","noopener")};
+    box.querySelector("[data-xkey]").onsubmit=e=>{e.preventDefault();const v=e.target.querySelector("input").value.trim();const er=box.querySelector("[data-xkeyerr]");
+      if(!/^sk-ant-[A-Za-z0-9_\-]{20,}$/.test(v)){er.textContent="That doesn't look like an Anthropic API key. It should start with sk-ant-.";er.hidden=false;return}
+      setKey(v);$("#freshq").hidden=false;box.remove();runExpert(text,hits)};
+  }
   function normq(x){return String(x||"").toLowerCase().replace(/[“”"'’‘.,;:!?()]/g,"").replace(/\s+/g," ").trim()}
   function expertFor(t){const R=ROUNDS[t];if(R.expert)return R.expert;let b=R.base||t,g=0;while(b&&!EXPERT[b]&&ROUNDS[b]&&ROUNDS[b].base&&ROUNDS[b].base!==b&&g++<5)b=ROUNDS[b].base;return EXPERT[b]||""}
   function buildPrompt(text,hits){
@@ -1659,11 +1705,12 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
     box.innerHTML=xHead("Connecting")+'<p class="xthink"><span class="spin"></span>Connecting to the expert reviewer…</p>';
     const sample=await getSampler();
     if(!box.isConnected) return;
-    if(!sample){box.innerHTML=xHead("Not available here")+'<p class="xnote">The expert review runs when Second Take is opened in Claude. This copy shows the instant checklist only.</p>';return}
+    if(!sample){renderConnect(box,text,hits);return}
     const ctl=new AbortController(); xctl=ctl;
     box.innerHTML=xHead("Reviewing")+'<p class="xthink"><span class="spin"></span>Reviewing your answer against the '+esc(ROUNDS[type].name)+' standard. This usually takes under a minute. The first time, Claude asks you to allow this page.</p><button type="button" class="ghost xstop">Stop</button>';
     box.querySelector(".xstop").onclick=()=>ctl.abort();
     try{
+      sampleViaKey=!!sample.viaKey;
       const r=await sample.json(buildPrompt(text,hits),{modelTier:"complex",signal:ctl.signal});
       if(xctl===ctl) xctl=null;
       if(box.isConnected) renderExpert(box,r||{},text);
@@ -1674,6 +1721,7 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
   }
   function xError(box,e,text,hits){
     const code=e.code||"upstream_error"; let msg, retry=true;
+    if(code==="key_invalid"){box.innerHTML=xHead("Key not accepted")+'<p class="xnote">Anthropic didn\'t accept that API key. Check it in your Anthropic console, or disconnect it and use Open in Claude instead.</p><button type="button" class="ghost xdisc">Disconnect key</button>';box.querySelector(".xdisc").onclick=()=>{setKey("");box.remove();runExpert(text,hits)};return}
     if(code==="cancelled"){msg="Expert review stopped."}
     else if(code==="not_granted"){msg="Claude access wasn't allowed for this page, so only the instant checklist is shown. Reload the page to be asked again.";retry=false;expertOff=true}
     else if(["sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(code)){msg="Expert review isn't available for this account or view. The instant checklist above still works.";retry=false;expertOff=true}
@@ -1697,7 +1745,7 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
     const notes=arr(r.domain_notes).map(str).filter(Boolean).slice(0,3);
     const corr=arr(r.checklist_corrections).map(str).filter(x=>x&&!/^(none|n\/a)\.?$/i.test(x));
     const nums=str(r.numbers_check).trim();
-    box.innerHTML=xHead("AI · quotes checked")+
+    box.innerHTML=xHead(sampleViaKey?"Your API key · quotes checked":"AI · quotes checked")+
       (str(r.verdict)?'<p class="xverdict">'+esc(str(r.verdict))+'</p>':'')+
       '<div class="xscores">'+bars+'</div><p class="xsmall">Scores rate this answer against a strong-answer standard for this round. They don\'t predict any interview outcome.</p>'+
       (gaps?'<h4>Fix these first</h4><ol class="xgaps">'+gaps+'</ol>':'')+
@@ -1751,6 +1799,8 @@ textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch i
     $("#loginsub").textContent=on?"Update your details, or sign out on this device.":"Tell us who's practising. It takes 20 seconds, and your progress tracker will carry your name.";
     if(on){$("#lname").value=profile.name;$("#lemail").value=profile.email;$("#lcollege").value=profile.college;$("#lbatch").value=profile.batch}
     $("#lsubmit").textContent=on?"Save changes":"Continue";$("#lsignout").hidden=!on;
+    const cc=$("#claudeconn"),k=getKey();cc.innerHTML=k?'<p class="label">Claude connection</p><p>Expert review on this website uses your Anthropic API key ending ••••'+esc(k.slice(-4))+'. It\'s stored only in this browser.</p><button type="button" class="ghost" id="lkeyrm">Disconnect key</button>':'';
+    const kr=$("#lkeyrm");if(kr)kr.onclick=()=>{setKey("");renderLogin()};
     f.querySelectorAll(".err").forEach(e=>e.textContent="");$("#lnote").hidden=true;
   }
   function validLogin(){
