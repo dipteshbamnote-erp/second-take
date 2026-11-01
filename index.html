@@ -7,16 +7,16 @@
 <title>Second Take</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Lexend:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=Sora:wght@800&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@600&display=swap">
 <style>
 /* Layout: consumer product site with hash-routed views (home, practice, progress, pricing, faq, promise, founder). Ink-navy UI, amber "marker" accent, serif for the human voice of the coach. */
 :root{
   /* White, high-contrast learning theme (single light theme by request). Text contrast on white: ink 18:1, ink-2 11:1, accent 7:1 */
   --paper:#F3F5F8; --sheet:#FFFFFF; --ink:#0B1220; --ink-2:#2F3B4C; --rule:#A3AEBD; --band:#F3F5F8; --band-ink:#0B1220;
   --accent:#8A4B00; --accent-soft:#FFE6BF; --ok:#14632F; --ok-soft:#DCF2E3; --warn:#A3200F; --warn-soft:#FDE1DC; color-scheme:light;
-  --f-display:"Sora",ui-sans-serif,system-ui,sans-serif;
-  --f-body:"Literata",Georgia,"Times New Roman",serif;
-  --f-ui:"Lexend",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-display:"Jost","Futura","Century Gothic",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Jost","Futura",ui-sans-serif,system-ui,sans-serif;
+  --f-ui:"Nunito Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
@@ -355,11 +355,168 @@ footer a:hover{color:var(--accent)}
 footer .legal{grid-column:1/-1;font-family:var(--f-mono);font-size:.72rem;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:1rem}
 @media (max-width:760px){footer .wrap{grid-template-columns:1fr 1fr}footer .wrap>div:first-child{grid-column:1/-1}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Editorial theme (preview) ===== */
+:root{--slate:#6E8C99;--slate-d:#557381;--line:#E6E6E3;--soft:#F5F5F3}
+body{font-family:var(--f-ui);font-size:16.5px}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;letter-spacing:-.01em}
+h1{font-size:clamp(2rem,4.2vw,3rem);line-height:1.12}
+h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.18}
+h3{font-weight:500;font-size:1.12rem}
+.label{font-family:var(--f-display);font-weight:500;font-size:.72rem;letter-spacing:.22em;color:var(--ink-2)}
+/* logo locked to the original */
+.brand{font-family:"Sora",ui-sans-serif,system-ui,sans-serif!important;font-weight:800!important;font-size:1.15rem!important;letter-spacing:normal!important;text-transform:none!important}
+.brand i{font-family:"Sora",ui-sans-serif,system-ui,sans-serif!important;background:var(--ink)!important;color:var(--paper)!important;border-radius:6px!important}
+.topbar{background:#111214;color:#C9CBCF;font:500 .72rem var(--f-display);letter-spacing:.14em;text-transform:uppercase}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:.6rem 1rem;padding-block:.5rem;flex-wrap:wrap}
+.topbar nav{display:flex;gap:1.2rem;flex-wrap:wrap}
+.topbar a{color:#C9CBCF;text-decoration:none}
+.topbar a:hover{color:#fff}
+nav.top{background:#fff;border-bottom:1px solid var(--line)}
+nav.top .wrap{padding-block:1rem}
+.links a{font-family:var(--f-display);font-size:.78rem;font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--ink)}
+.links a.on{border-bottom-color:var(--ink)}
+.cta-s{border-radius:0;font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;padding:.6rem 1rem;background:#111214}
+.cta-s:hover{background:var(--slate-d)}
+.userchip{border-radius:0;border:1px solid var(--line);font-family:var(--f-display);font-weight:500}
+.btn{border-radius:0;font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;padding:.85rem 1.4rem;background:#111214;color:#fff}
+.btn:hover{background:var(--slate-d);color:#fff}
+.btn.alt{background:#fff;color:#111214;border:1px solid #111214}
+.btn.alt:hover{background:#111214;color:#fff}
+.btn.sm{font-size:.7rem;padding:.55rem .9rem}
+.btn.light{background:#fff;color:#111214}
+.btn.light:hover{background:var(--soft);color:#111214}
+.btn.line{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.7)}
+.btn.line:hover{background:#fff;color:#111214}
+.ghost{border-radius:0;font-family:var(--f-display);font-weight:500}
+.pill{border-radius:0;background:#111214;color:#fff;border:0;font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:.6rem;padding:.28rem .6rem}
+.chip{border-radius:0;font-family:var(--f-display);font-weight:500;letter-spacing:.03em;border:1px solid var(--line)}
+.chip.on{background:#111214;border-color:#111214;color:#fff}
+.seg{border-radius:0;border-color:#111214}
+.seg button{font-family:var(--f-display);font-weight:500;letter-spacing:.06em}
+.app,.democard,.types a,.plan,.cocard,.qcard,.stat,.panel,.steps>div,.lcard,.promise-list>div,.faq details,.prompt,.askbox,.cobrief,.disc,.coachq,textarea,.fld input,.banksearch input,.cosearch,.rubric li,.notice,.xfix,.xdrill,.xnums,.fname,.empty,.memo,.mic,.tag,.ask-row input,.delta,.voicemsg{border-radius:0!important}
+.app,.democard{box-shadow:none;border:1px solid var(--line)}
+.types a,.cocard,.qcard,.steps>div,.plan,.stat,.panel,.promise-list>div,.lcard{border:1px solid var(--line);box-shadow:none;background:#fff}
+.types a,.cocard,.qcard{transition:box-shadow .2s,transform .2s}
+.types a:hover,.cocard:hover,.qcard:hover{box-shadow:0 18px 36px -24px rgba(17,18,20,.35);transform:translateY(-2px);border-color:var(--line)}
+.types .go{color:#111214;font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.14em;font-size:.72rem}
+.types .tl{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.14em}
+.coachq{background:#111214}
+.prompt{background:var(--soft);border:1px solid var(--line)}
+.prompt .q{font-family:var(--f-display);font-weight:400;font-size:1.25rem}
+.tabs button{font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.1em;font-size:.74rem}
+.tabs button[aria-selected="true"]{border-bottom-color:#111214}
+.band{background:#111214;color:#FFFFFF}
+.band h2,.band h3,.band p,.band .nevers p{color:#FFFFFF}
+.band .label{color:#A9C0C9}
+.band .muted{color:#D5D8DC}
+.band .nevers .x{color:#F2C14E}
+.band a.btn{background:#fff;color:#111214}
+.band a.btn:hover{background:var(--slate);color:#fff}
+.sec+.sec{border-top:1px solid var(--line)}
+.pull{border-left-color:var(--slate);font-family:var(--f-display);font-weight:400;font-style:normal}
+.faq summary{font-family:var(--f-display);font-weight:500}
+table.cmp th{font-family:var(--f-display);letter-spacing:.14em}
+table.cmp tr.us td{background:#E9F0F2}
+.scorebox .big,.demo-score,.stat b,.price{font-family:var(--f-display);font-weight:500}
+.letter{font-family:var(--f-display);font-weight:400}
+main[data-view]>.wrap,main[data-view]>section.wrap{width:100%}
+.links{gap:.95rem}
+.links a{font-size:.72rem;letter-spacing:.1em}
+@media (max-width:600px){.topbar nav{display:none}}
+/* home: editorial hero */
+.ehero{display:grid;grid-template-columns:64px minmax(0,1fr);margin-top:1.6rem}
+.ehero-side{background:#111214;color:#fff;display:flex;align-items:center;justify-content:center;padding-block:1rem}
+.ehero-side span{writing-mode:vertical-rl;transform:rotate(180deg);font:400 .74rem var(--f-display);letter-spacing:.42em;text-transform:uppercase;white-space:nowrap}
+.ehero-feature{position:relative;min-height:480px;background:#ECEDEB;overflow:hidden;display:flex;align-items:center}
+.ehero-art{position:absolute;right:0;top:0;height:100%;width:auto;max-width:74%}
+.ehero-box{position:relative;margin:2rem 0 2rem clamp(16px,5%,64px);max-width:540px;background:rgba(17,18,20,.88);color:#fff;padding:2rem 2.2rem;display:grid;gap:1rem}
+.ehero-box h1{color:#fff;font-size:clamp(1.9rem,3.6vw,2.7rem)}
+.ehero-box p{color:#D7D9DC;font-size:1.04rem}
+.ehero-box .tag{display:inline-block;width:fit-content;font:500 .62rem var(--f-display);letter-spacing:.16em;text-transform:uppercase;background:#fff;color:#111214;padding:.3rem .6rem}
+.ehero-box .fine{color:#AEB2B8}
+@media (max-width:760px){.ehero{grid-template-columns:1fr}.ehero-side{display:none}.ehero-feature{min-height:0;flex-direction:column;align-items:stretch}.ehero-art{position:static;max-width:100%;width:100%;height:220px}.ehero-box{margin:0;max-width:none}}
+/* field cards with covers */
+.cover{display:grid;place-items:center;height:140px;margin:-1.1rem -1.1rem .7rem;background:#111214}
+.cover svg{width:58px;height:58px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cv-b{background:var(--slate)}.cv-c{background:#2E3134}.cv-d{background:#9AAAB1}
+.cover.scene{height:auto;aspect-ratio:320/170;background:#111214;overflow:hidden}
+.cover.scene svg{width:100%;height:100%;stroke:none;fill:none;stroke-width:1;display:block;transition:transform .35s ease}
+.types a:hover .cover.scene svg{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.cover.scene svg{transition:none}}
+/* today's prompt band */
+.tband{background:var(--slate);color:#fff}
+.tband-in{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem 2rem;align-items:center;padding-block:2.8rem}
+.tband .label{color:#E3ECEF}
+.tq{font:400 1.4rem/1.4 var(--f-display);max-width:62ch;margin-top:.5rem}
+.tmeta{font-family:var(--f-mono);font-size:.74rem;color:#E3ECEF;margin-top:.6rem}
+@media (max-width:700px){.tband-in{grid-template-columns:1fr}}
+/* feedback demo + bank list */
+.fdemo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:3rem}
+.fdemo-copy{display:grid;gap:1rem;align-content:start}
+@media (max-width:860px){.fdemo{grid-template-columns:1fr}}
+.hbank{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+@media (max-width:900px){.hbank{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.hbank{grid-template-columns:1fr}}
+.hbank article{border:1px solid var(--line);padding:1.1rem;display:grid;gap:.6rem;align-content:start}
+.hbank .qt{font:400 1.05rem/1.4 var(--f-display)}
+.hbank .qd{font-family:var(--f-mono);font-size:.68rem;color:var(--ink-2)}
+.hbank button{justify-self:start;background:none;border:0;padding:0;cursor:pointer;font:500 .72rem var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:#111214;border-bottom:1px solid #111214}
+
+/* ===== Glass buttons + editorial practice screen (preview) ===== */
+.btn,.cta-s{position:relative;overflow:hidden;isolation:isolate;border-radius:999px!important;background:linear-gradient(180deg,rgba(58,63,71,.94) 0%,rgba(17,18,20,.96) 100%);color:#fff;border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.25),0 10px 24px -12px rgba(17,18,20,.55);-webkit-backdrop-filter:blur(10px) saturate(140%);backdrop-filter:blur(10px) saturate(140%);transition:transform .15s,box-shadow .15s,background .2s}
+.btn::before,.cta-s::before{content:"";position:absolute;left:6%;right:6%;top:1px;height:48%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,0));pointer-events:none;z-index:-1}
+.btn:hover,.cta-s:hover{background:linear-gradient(180deg,rgba(124,153,166,.96),rgba(85,115,129,.97));color:#fff;transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 14px 28px -12px rgba(85,115,129,.75)}
+.btn:active,.cta-s:active{transform:translateY(0);box-shadow:inset 0 2px 6px rgba(0,0,0,.25)}
+.btn.alt{background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(238,241,243,.7));color:#111214;border:1px solid rgba(17,18,20,.2);box-shadow:inset 0 1px 0 #fff,0 8px 20px -12px rgba(17,18,20,.35)}
+.btn.alt:hover{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(226,236,240,.9));color:#111214}
+.btn.light,.band a.btn{background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(255,255,255,.76));color:#111214;border:1px solid rgba(255,255,255,.65);box-shadow:inset 0 1px 0 #fff,0 10px 24px -12px rgba(0,0,0,.5)}
+.btn.light:hover,.band a.btn:hover{background:#fff;color:#111214}
+.btn.line{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.line:hover{background:rgba(255,255,255,.22);color:#fff}
+.btn[disabled]{opacity:.5;transform:none}
+.ghost,.mic,.chip,.breakit button,.hbank button{border-radius:999px!important;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(241,243,245,.78));border:1px solid rgba(17,18,20,.16);box-shadow:inset 0 1px 0 #fff,0 4px 12px -8px rgba(17,18,20,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#111214;transition:transform .15s,background .2s}
+.ghost:hover,.mic:hover,.chip:hover,.breakit button:hover{background:linear-gradient(180deg,#fff,rgba(226,236,240,.95));transform:translateY(-1px)}
+.ghost{padding:.42rem .9rem}
+.breakit button{border-style:solid;padding:.45rem .85rem;font-family:var(--f-ui)}
+.hbank button{padding:.42rem .9rem;border-bottom:1px solid rgba(17,18,20,.16)}
+.chip.on,.seg button[aria-pressed="true"]{background:linear-gradient(180deg,rgba(58,63,71,.95),rgba(17,18,20,.96));color:#fff;border-color:rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
+.seg{border-radius:999px!important;overflow:hidden;border:1px solid rgba(17,18,20,.2);box-shadow:0 4px 12px -8px rgba(17,18,20,.4)}
+.mic[aria-pressed="true"]{background:linear-gradient(180deg,#d6463e,#ad231b);color:#fff;border-color:rgba(255,255,255,.2)}
+.userchip{border-radius:999px!important}
+/* practice: editorial layout matching home */
+.app{border:1px solid var(--line)}
+.tabs{background:#fff;border-bottom:1px solid var(--line)}
+.tabs button{padding:1rem 1.1rem}
+.review{background:#F7F7F5}
+.prompt{background:#111214!important;color:#fff;border:0!important;padding:1.4rem 1.5rem;gap:.7rem}
+.prompt .q{color:#fff;font-size:1.32rem;line-height:1.38}
+.prompt .pill{background:#fff;color:#111214}
+.prompt .linkbtn{color:#CFE0E6;font-family:var(--f-display);font-weight:500;letter-spacing:.04em}
+.prompt .linkbtn:hover{color:#fff}
+.prompt .qcount{color:#9DA3AA}
+.prompt .ftip{color:#D7D9DC;border-left-color:var(--slate)}
+.prompt .xnote{color:#fff}
+.timer{font-family:var(--f-display);letter-spacing:.1em;text-transform:uppercase;font-size:.72rem}
+.timer .t{font-family:var(--f-mono);letter-spacing:0;font-size:1.1rem}
+.askbox{background:#F5F5F3;border:1px solid var(--line)!important}
+.ans-head .label,.review .label{letter-spacing:.2em}
+textarea,#answer,.ask-row input,.fld input,.banksearch input,.cosearch{border-radius:14px!important;border:1px solid #D3D7DC!important;background:#fff}
+textarea:focus,#answer:focus,.ask-row input:focus,.fld input:focus,.banksearch input:focus,.cosearch:focus{border-color:var(--slate)!important;box-shadow:0 0 0 4px rgba(110,140,153,.18);outline:none}
+.rubric li{background:#fff;border:1px solid var(--line);border-left-width:3px}
+.rubric li.y{background:#EEF7F1;border-color:#CFE6D7;border-left-color:var(--ok)}
+.rubric li.n{background:#FCF0EE;border-color:#F1D2CD;border-left-color:var(--warn)}
+.scorebox .big{font-weight:500}
+.coachq{background:#111214}
+.breakit{background:#F7F7F5;border-top:1px solid var(--line)}
+.disclaim{border-top:1px solid var(--line)}
+.cobrief{background:#F5F5F3;border:1px solid var(--line)!important;border-left:3px solid var(--slate)!important}
 </style>
 </head>
 <body>
 
 
+<div class="topbar"><div class="wrap"><span>Free during beta · Every MBA vertical</span><nav aria-label="Quick links"><a href="#bank">Question bank</a><a href="#promise">Our promise</a><a href="#faq">FAQ</a><a href="#founder">Our story</a></nav></div></div>
 <nav class="top" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#home"><i>2</i>Second Take</a>
@@ -380,15 +537,73 @@ footer .legal{grid-column:1/-1;font-family:var(--f-mono);font-size:.72rem;color:
 <!-- ============ HOME ============ -->
 <main data-view="home">
   <div class="wrap">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="label">For MBA placement prep · every vertical</p>
-        <h1>Find the gap in your answer before the interviewer does.</h1>
-        <p class="sub">Pick your field, then answer a practice prompt out loud or in writing. Second Take shows you <mark>exactly which part of your structure is missing</mark>, asks you one question, and lets you take it again.</p>
-        <div class="cta-row"><a class="btn" href="#practice">Start practising, free</a><a class="btn alt" href="#how-scroll" id="seehow">See how it works</a></div>
-        <p class="fine">Free. No CV upload. Your profile and answers stay on your device.</p>
+    <section class="ehero" aria-label="Second Take">
+      <div class="ehero-side" aria-hidden="true"><span>A practice studio for MBA interviews</span></div>
+      <div class="ehero-feature">
+        <svg class="ehero-art" viewBox="0 0 640 480" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+          <rect width="640" height="480" fill="#ECEDEB"/>
+          <rect x="250" y="70" width="330" height="360" fill="#FFFFFF" transform="rotate(-6 415 250)"/>
+          <g transform="rotate(-6 415 250)" stroke="#C9CDD1" stroke-width="2">
+            <line x1="285" y1="140" x2="550" y2="140"/><line x1="285" y1="176" x2="550" y2="176"/><line x1="285" y1="212" x2="550" y2="212"/><line x1="285" y1="248" x2="550" y2="248"/><line x1="285" y1="284" x2="550" y2="284"/><line x1="285" y1="320" x2="550" y2="320"/><line x1="285" y1="356" x2="550" y2="356"/>
+            <line x1="275" y1="100" x2="275" y2="400" stroke="#E0A3A0"/>
+          </g>
+          <g transform="rotate(-6 415 250)">
+            <rect x="295" y="129" width="150" height="12" fill="#6E8C99" opacity=".55"/>
+            <rect x="295" y="201" width="210" height="12" fill="#111214" opacity=".18"/>
+            <rect x="295" y="273" width="120" height="12" fill="#6E8C99" opacity=".55"/>
+            <path d="M462 268l10 10 20-24" stroke="#2E7D4F" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M462 196l10 10 20-24" stroke="#2E7D4F" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="476" cy="342" r="12" stroke="#B3413A" stroke-width="5" fill="none"/>
+          </g>
+          <rect x="520" y="300" width="18" height="170" rx="4" fill="#111214" transform="rotate(32 529 385)"/>
+          <polygon points="0,0 18,0 9,22" fill="#C9A35A" transform="translate(458 432) rotate(32)"/>
+          <path d="M150 120h150a14 14 0 0 1 14 14v62a14 14 0 0 1-14 14h-96l-34 26v-26h-20a14 14 0 0 1-14-14v-62a14 14 0 0 1 14-14z" fill="#111214"/>
+          <rect x="168" y="146" width="110" height="9" fill="#fff" opacity=".85"/><rect x="168" y="166" width="84" height="9" fill="#fff" opacity=".55"/><rect x="168" y="186" width="98" height="9" fill="#fff" opacity=".55"/>
+          <circle cx="560" cy="90" r="38" fill="#6E8C99" opacity=".9"/><rect x="545" y="128" width="30" height="8" fill="#6E8C99" opacity=".9"/>
+        </svg>
+        <div class="ehero-box">
+          <span class="tag">Placement prep · every vertical</span>
+          <h1>Find the gap in your answer before the interviewer does.</h1>
+          <p>Pick your field, answer a practice prompt out loud or in writing, and see exactly which part of your structure is missing. Then take it again.</p>
+          <div class="cta-row"><a class="btn light" href="#practice">Start practising</a><a class="btn line" href="#how-scroll" id="seehow">See how it works</a></div>
+          <p class="fine">Free. No CV upload. Your profile and answers stay on your device.</p>
+        </div>
       </div>
-      <div class="democard" aria-label="Example feedback">
+    </section>
+  </div>
+
+  <section class="sec wrap" id="fields">
+    <div class="sec-head"><p class="label">Your field</p><h2>Built for every MBA vertical</h2><p>Choose your field and Second Take changes the interview rounds, prompts and feedback to match. You get <strong data-count>over 2 million</strong> practice prompts across 13 round types, plus fresh ones written by Claude on demand.</p></div>
+    <div class="types">
+      <a href="#practice" data-field="product"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: phone wireframe with sticky notes and a user persona card"><rect width="320" height="170" fill="#16181B"/><rect y="138" width="320" height="32" fill="#22262A"/><rect x="128" y="22" width="64" height="118" rx="10" fill="#F4F5F6"/><rect x="136" y="34" width="48" height="10" rx="2" fill="#6E8C99"/><rect x="136" y="50" width="48" height="30" rx="2" fill="#D6DCE0"/><rect x="136" y="86" width="22" height="22" rx="2" fill="#D6DCE0"/><rect x="162" y="86" width="22" height="22" rx="2" fill="#D6DCE0"/><rect x="136" y="114" width="48" height="8" rx="4" fill="#111214"/><g transform="rotate(-6 67 67)"><rect x="44" y="44" width="46" height="46" fill="#F2C14E"/><g stroke="#111214" stroke-width="2"><line x1="52" y1="58" x2="80" y2="58"/><line x1="52" y1="68" x2="74" y2="68"/><line x1="52" y1="78" x2="78" y2="78"/></g></g><rect x="56" y="98" width="40" height="40" fill="#9AAAB1" transform="rotate(5 76 118)"/><rect x="222" y="40" width="64" height="80" rx="4" fill="#2C3035" stroke="#6E8C99" stroke-width="2"/><circle cx="254" cy="64" r="12" fill="#E8B79A"/><path d="M234 102c4-14 36-14 40 0z" fill="#6E8C99"/><line x1="234" y1="110" x2="274" y2="110" stroke="#9AAAB1" stroke-width="3"/><path d="M96 70C110 60 118 60 124 66M196 80C206 74 212 74 218 78" stroke="#F4F5F6" stroke-width="2" fill="none" stroke-dasharray="4 4"/></svg></span><span class="tl">4 rounds</span><h3>Product management</h3><p class="muted">Product design, metrics and root-cause, guesstimates</p><span class="go">Practise →</span></a>
+      <a href="#practice" data-field="consulting"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: whiteboard with an issue tree and a 2x2 matrix, with a presenter"><rect width="320" height="170" fill="#6E8C99"/><rect y="146" width="320" height="24" fill="#5E7B88"/><rect x="40" y="18" width="180" height="112" fill="#FFFFFF" stroke="#111214" stroke-width="3"/><line x1="70" y1="130" x2="62" y2="160" stroke="#111214" stroke-width="3"/><line x1="190" y1="130" x2="198" y2="160" stroke="#111214" stroke-width="3"/><rect x="56" y="62" width="30" height="16" fill="#111214"/><path d="M86 70h10M96 44v52M96 44h10M96 70h10M96 96h10" stroke="#111214" stroke-width="2" fill="none"/><rect x="106" y="38" width="26" height="12" fill="#9AAAB1"/><rect x="106" y="64" width="26" height="12" fill="#F2C14E"/><rect x="106" y="90" width="26" height="12" fill="#9AAAB1"/><line x1="150" y1="34" x2="150" y2="112" stroke="#111214" stroke-width="2"/><line x1="146" y1="108" x2="206" y2="108" stroke="#111214" stroke-width="2"/><line x1="178" y1="40" x2="178" y2="104" stroke="#C9CDD1" stroke-width="1.5"/><line x1="152" y1="72" x2="204" y2="72" stroke="#C9CDD1" stroke-width="1.5"/><circle cx="192" cy="52" r="6" fill="#C9533F"/><circle cx="162" cy="92" r="4" fill="#6E8C99"/><circle cx="168" cy="58" r="4" fill="#6E8C99"/><path d="M242 146v-56c0-12 40-12 40 0v56z" fill="#111214"/><path d="M248 98L216 74" stroke="#111214" stroke-width="9" stroke-linecap="round"/><circle cx="262" cy="58" r="13" fill="#B9836A"/><path d="M249 54c1-14 25-14 26 0c-6-5-20-5-26 0z" fill="#111214"/></svg></span><span class="tl">3 rounds</span><h3>Consulting &amp; strategy</h3><p class="muted">Business cases with interviewer Q&amp;A, guesstimates</p><span class="go">Practise →</span></a>
+      <a href="#practice" data-field="marketing"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: billboard ad, megaphone, shopping bag and price tag"><rect width="320" height="170" fill="#2E3134"/><rect y="146" width="320" height="24" fill="#24272A"/><line x1="70" y1="104" x2="70" y2="146" stroke="#9AAAB1" stroke-width="5"/><line x1="140" y1="104" x2="140" y2="146" stroke="#9AAAB1" stroke-width="5"/><rect x="30" y="20" width="150" height="86" fill="#F2C14E"/><circle cx="70" cy="62" r="24" fill="#FFFFFF"/><rect x="60" y="44" width="20" height="36" rx="6" fill="#C9533F"/><rect x="66" y="40" width="8" height="6" fill="#111214"/><rect x="104" y="40" width="58" height="10" fill="#111214"/><rect x="104" y="58" width="46" height="6" fill="#111214" opacity=".6"/><rect x="104" y="70" width="52" height="6" fill="#111214" opacity=".6"/><rect x="104" y="84" width="34" height="12" fill="#111214"/><rect x="194" y="68" width="14" height="20" fill="#6E8C99"/><path d="M206 70L250 50V104L206 86Z" fill="#F4F5F6"/><path d="M214 88l6 22h10l-4-18z" fill="#6E8C99"/><path d="M260 62c8 6 8 24 0 30M270 54c14 10 14 36 0 46" stroke="#F2C14E" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="228" y="114" width="36" height="32" fill="#9AAAB1"/><path d="M236 114c0-14 20-14 20 0" stroke="#F4F5F6" stroke-width="3" fill="none"/><path d="M276 118h18l8 10-8 10h-18z" fill="#F4F5F6"/><circle cx="282" cy="128" r="2.5" fill="#2E3134"/></svg></span><span class="tl">3 rounds</span><h3>Marketing &amp; brand</h3><p class="muted">Marketing cases, campaign pitches</p><span class="go">Practise →</span></a>
+      <a href="#practice" data-field="finance"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: trading screen with candlesticks, coin stack and calculator"><rect width="320" height="170" fill="#9AAAB1"/><rect y="146" width="320" height="24" fill="#8797A0"/><rect x="40" y="18" width="170" height="104" rx="6" fill="#111214"/><rect x="48" y="26" width="154" height="88" fill="#1E2226"/><g stroke-width="2"><line x1="64" y1="70" x2="64" y2="100" stroke="#C9533F"/><rect x="60" y="76" width="8" height="18" fill="#C9533F"/><line x1="82" y1="64" x2="82" y2="96" stroke="#5FA77A"/><rect x="78" y="70" width="8" height="20" fill="#5FA77A"/><line x1="100" y1="58" x2="100" y2="86" stroke="#5FA77A"/><rect x="96" y="62" width="8" height="18" fill="#5FA77A"/><line x1="118" y1="62" x2="118" y2="88" stroke="#C9533F"/><rect x="114" y="66" width="8" height="14" fill="#C9533F"/><line x1="136" y1="48" x2="136" y2="78" stroke="#5FA77A"/><rect x="132" y="52" width="8" height="20" fill="#5FA77A"/><line x1="154" y1="40" x2="154" y2="70" stroke="#5FA77A"/><rect x="150" y="44" width="8" height="18" fill="#5FA77A"/><line x1="172" y1="34" x2="172" y2="60" stroke="#5FA77A"/><rect x="168" y="38" width="8" height="16" fill="#5FA77A"/></g><polyline points="56,96 82,84 100,74 118,78 136,62 154,52 186,40" fill="none" stroke="#F2C14E" stroke-width="2.5"/><rect x="116" y="122" width="18" height="16" fill="#111214"/><rect x="96" y="138" width="58" height="8" fill="#111214"/><g fill="#F2C14E" stroke="#B8902E" stroke-width="1.5"><ellipse cx="246" cy="138" rx="20" ry="7"/><ellipse cx="246" cy="130" rx="20" ry="7"/><ellipse cx="246" cy="122" rx="20" ry="7"/><ellipse cx="246" cy="114" rx="20" ry="7"/></g><rect x="274" y="96" width="34" height="50" rx="4" fill="#F4F5F6"/><rect x="279" y="101" width="24" height="10" fill="#6E8C99"/><g fill="#111214"><rect x="279" y="116" width="6" height="6"/><rect x="288" y="116" width="6" height="6"/><rect x="297" y="116" width="6" height="6"/><rect x="279" y="126" width="6" height="6"/><rect x="288" y="126" width="6" height="6"/><rect x="297" y="126" width="6" height="14"/><rect x="279" y="135" width="15" height="5"/></g></svg></span><span class="tl">3 rounds</span><h3>Finance &amp; banking</h3><p class="muted">Stock pitches and valuation, credit decisions</p><span class="go">Practise →</span></a>
+      <a href="#practice" data-field="operations"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: warehouse shelves, conveyor belt and delivery truck"><rect width="320" height="170" fill="#6E8C99"/><rect y="146" width="320" height="24" fill="#5E7B88"/><g fill="#2E3134"><rect x="24" y="20" width="6" height="126"/><rect x="130" y="20" width="6" height="126"/><rect x="24" y="58" width="112" height="5"/><rect x="24" y="100" width="112" height="5"/><rect x="24" y="141" width="112" height="5"/></g><g fill="#E9D3A8" stroke="#B89B6A" stroke-width="1.5"><rect x="36" y="32" width="26" height="26"/><rect x="66" y="40" width="20" height="18"/><rect x="92" y="28" width="30" height="30"/><rect x="38" y="76" width="34" height="24"/><rect x="78" y="80" width="22" height="20"/><rect x="104" y="72" width="22" height="28"/><rect x="40" y="117" width="24" height="24"/><rect x="70" y="113" width="34" height="28"/></g><line x1="160" y1="120" x2="160" y2="146" stroke="#111214" stroke-width="3"/><line x1="230" y1="120" x2="230" y2="146" stroke="#111214" stroke-width="3"/><rect x="150" y="112" width="90" height="8" rx="4" fill="#111214"/><g fill="#F4F5F6"><circle cx="160" cy="116" r="2"/><circle cx="180" cy="116" r="2"/><circle cx="200" cy="116" r="2"/><circle cx="220" cy="116" r="2"/></g><g fill="#E9D3A8" stroke="#B89B6A" stroke-width="1.5"><rect x="166" y="94" width="18" height="18"/><rect x="200" y="98" width="14" height="14"/></g><rect x="246" y="96" width="50" height="38" fill="#F4F5F6"/><path d="M296 106h12l8 12v16h-20z" fill="#F2C14E"/><rect x="300" y="110" width="8" height="8" fill="#9AAAB1"/><circle cx="260" cy="138" r="8" fill="#111214"/><circle cx="302" cy="138" r="8" fill="#111214"/><circle cx="260" cy="138" r="3" fill="#9AAAB1"/><circle cx="302" cy="138" r="3" fill="#9AAAB1"/></svg></span><span class="tl">3 rounds</span><h3>Operations &amp; supply chain</h3><p class="muted">Process and bottleneck cases, guesstimates</p><span class="go">Practise →</span></a>
+      <a href="#practice" data-field="hr"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: two people in an interview across a table"><rect width="320" height="170" fill="#16181B"/><rect y="146" width="320" height="24" fill="#22262A"/><path d="M72 120v-30c0-14 48-14 48 0v30z" fill="#6E8C99"/><circle cx="96" cy="58" r="15" fill="#E8B79A"/><path d="M80 56c0-18 32-18 32 0c-5-7-27-7-32 0z" fill="#3A2A22"/><path d="M200 120v-30c0-14 48-14 48 0v30z" fill="#F2C14E"/><path d="M208 52c-2 14 0 22 4 28M240 52c2 14 0 22-4 28" stroke="#111214" stroke-width="6" fill="none"/><circle cx="224" cy="58" r="15" fill="#B9836A"/><path d="M208 58c0-20 32-20 32 0c-6-8-26-8-32 0z" fill="#111214"/><rect x="50" y="112" width="220" height="10" fill="#F4F5F6"/><rect x="70" y="122" width="6" height="24" fill="#9AAAB1"/><rect x="244" y="122" width="6" height="24" fill="#9AAAB1"/><rect x="118" y="104" width="34" height="8" fill="#9AAAB1"/><rect x="170" y="100" width="24" height="12" fill="#F4F5F6" opacity=".7"/><path d="M130 20h60a8 8 0 0 1 8 8v22a8 8 0 0 1-8 8h-36l-12 10v-10h-12a8 8 0 0 1-8-8V28a8 8 0 0 1 8-8z" fill="#F4F5F6"/><circle cx="146" cy="39" r="3" fill="#111214"/><circle cx="160" cy="39" r="3" fill="#111214"/><circle cx="174" cy="39" r="3" fill="#111214"/><path d="M290 112c-10-20-2-34 6-40M292 112c6-18 16-26 22-28M290 112c-4-14-14-20-22-20" stroke="#5FA77A" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M282 112h20l-3 34h-14z" fill="#9AAAB1"/></svg></span><span class="tl">3 rounds</span><h3>HR &amp; people</h3><p class="muted">People cases, situational judgement</p><span class="go">Practise →</span></a>
+      <a href="#practice" data-field="analytics"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: laptop dashboard with charts and a magnifying glass"><rect width="320" height="170" fill="#2E3134"/><rect y="146" width="320" height="24" fill="#24272A"/><rect x="70" y="24" width="180" height="108" rx="6" fill="#F4F5F6"/><rect x="78" y="32" width="164" height="92" fill="#FFFFFF"/><rect x="86" y="40" width="44" height="22" fill="#E9EEF0"/><rect x="90" y="46" width="20" height="4" fill="#6E8C99"/><rect x="90" y="54" width="30" height="4" fill="#111214"/><rect x="136" y="40" width="44" height="22" fill="#E9EEF0"/><rect x="140" y="46" width="20" height="4" fill="#6E8C99"/><rect x="140" y="54" width="26" height="4" fill="#111214"/><rect x="186" y="40" width="48" height="22" fill="#F2C14E"/><rect x="190" y="46" width="22" height="4" fill="#111214"/><rect x="190" y="54" width="32" height="4" fill="#111214"/><g fill="#6E8C99"><rect x="90" y="96" width="10" height="22"/><rect x="104" y="86" width="10" height="32"/><rect x="118" y="78" width="10" height="40"/><rect x="132" y="90" width="10" height="28"/></g><polyline points="154,112 168,96 182,102 198,82 214,88 230,72" fill="none" stroke="#C9533F" stroke-width="2.5"/><circle cx="230" cy="72" r="3.5" fill="#C9533F"/><path d="M56 132h208l10 14H46z" fill="#9AAAB1"/><circle cx="276" cy="64" r="20" fill="none" stroke="#F2C14E" stroke-width="6"/><line x1="290" y1="78" x2="306" y2="96" stroke="#F2C14E" stroke-width="8" stroke-linecap="round"/></svg></span><span class="tl">4 rounds</span><h3>Business analytics</h3><p class="muted">Data cases, metrics, guesstimates</p><span class="go">Practise →</span></a>
+      <a href="#practice" data-field="general"><span class="cover scene"><svg viewBox="0 0 320 170" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: summit flag with a path up the mountain and an org chart"><rect width="320" height="170" fill="#9AAAB1"/><path d="M0 146L90 62L140 104L200 40L320 146Z" fill="#6E8C99"/><path d="M170 70L200 40L230 70L214 64L200 72L186 64Z" fill="#F4F5F6"/><path d="M0 146L60 110L110 132L170 96L320 146Z" fill="#5E7B88"/><path d="M40 146C80 130 120 140 150 118S190 90 198 46" stroke="#F2C14E" stroke-width="3" stroke-dasharray="6 6" fill="none"/><line x1="200" y1="40" x2="200" y2="14" stroke="#111214" stroke-width="3"/><path d="M200 14h24l-6 7 6 7h-24z" fill="#C9533F"/><rect x="250" y="20" width="40" height="16" rx="3" fill="#111214"/><path d="M270 36v10M248 46h44M248 46v8M292 46v8" stroke="#111214" stroke-width="2" fill="none"/><rect x="234" y="54" width="28" height="12" rx="3" fill="#F4F5F6"/><rect x="278" y="54" width="28" height="12" rx="3" fill="#F4F5F6"/><rect y="146" width="320" height="24" fill="#8797A0"/></svg></span><span class="tl">3 rounds</span><h3>General management</h3><p class="muted">Business cases, situational judgement</p><span class="go">Practise →</span></a>
+    </div>
+    <p class="fine">Every field also includes a behavioural (STAR) round.</p>
+    <div class="sec-head" style="margin-top:1rem"><h3 style="font-size:1.35rem">Preparing for a specific company?</h3><p>Practise in the interview format 40 recruiters publish, across consulting, tech, banking, FMCG and more, including McKinsey, BCG, PwC, EY, ZS, Amazon, Microsoft, Goldman Sachs, Morgan Stanley, HSBC, P&amp;G, Unilever, L&#39;Oréal, ITC and Tata (TAS). Search for yours. Each company page links to its source.</p><p class="fine">Second Take is independent and not affiliated with or endorsed by any of these companies. We don&#39;t promise any question will be asked in their interviews.</p></div>
+    <div class="cta-row"><a class="btn alt" href="#practice" data-mode-link="company">Practise by company</a></div>
+  </section>
+
+  <section class="tband" aria-label="Today's practice prompt">
+    <div class="wrap tband-in">
+      <div><p class="label">Today's practice prompt</p><p class="tq" id="todayq">Loading today's prompt…</p><p class="tmeta" id="todaymeta"></p></div>
+      <button class="btn light" type="button" id="todaygo">Answer this prompt</button>
+    </div>
+  </section>
+
+  <section class="sec wrap fdemo">
+    <div class="fdemo-copy">
+      <p class="label">What you get</p>
+      <h2>See exactly what's missing, in your own words</h2>
+      <p class="muted">An instant checklist marks each part of a strong answer as covered or missing, with the words that counted. Then the coach asks you one question, and you take it again.</p>
+      <div><a class="btn alt" href="#practice">Try it now</a></div>
+    </div>
+    <div class="democard" aria-label="Example feedback">
         <div class="row"><span class="label">Example feedback · product design</span><span class="pill">Take 1</span></div>
         <p class="qline">Design a product that helps first-year MBA students build friendships in their first month.</p>
         <div class="row"><span class="demo-score">5 <span style="font-size:1rem;color:var(--ink-2)">/ 8</span></span><span class="muted" style="font-size:.88rem">structure elements covered</span></div>
@@ -400,8 +615,13 @@ footer .legal{grid-column:1/-1;font-family:var(--f-mono);font-size:.72rem;color:
         </ul>
         <div class="coachq"><span class="label">Your next question</span><p>What could go wrong with your idea, and what would you give up?</p></div>
       </div>
-    </section>
-  </div>
+  </section>
+
+  <section class="sec wrap">
+    <div class="sec-head"><p class="label">From the question bank</p><h2>Questions candidates commonly hear</h2></div>
+    <div class="hbank" id="homebank"></div>
+    <div><a class="btn alt" href="#bank">Browse all questions</a></div>
+  </section>
 
   <section class="sec wrap">
     <div class="sec-head"><p class="label">Sound familiar?</p><h2>You've practised for weeks. You still don't know if your answers are good.</h2></div>
@@ -421,22 +641,6 @@ footer .legal{grid-column:1/-1;font-family:var(--f-mono);font-size:.72rem;color:
     </div>
   </section>
 
-  <section class="sec wrap" id="fields">
-    <div class="sec-head"><p class="label">Your field</p><h2>Built for every MBA vertical</h2><p>Choose your field and Second Take changes the interview rounds, prompts and feedback to match. You get <strong data-count>over 2 million</strong> practice prompts across 13 round types, plus fresh ones written by Claude on demand.</p></div>
-    <div class="types">
-      <a href="#practice" data-field="product"><span class="tl">4 rounds</span><h3>Product management</h3><p class="muted">Product design, metrics and root-cause, guesstimates</p><span class="go">Practise →</span></a>
-      <a href="#practice" data-field="consulting"><span class="tl">3 rounds</span><h3>Consulting &amp; strategy</h3><p class="muted">Business cases with interviewer Q&amp;A, guesstimates</p><span class="go">Practise →</span></a>
-      <a href="#practice" data-field="marketing"><span class="tl">3 rounds</span><h3>Marketing &amp; brand</h3><p class="muted">Marketing cases, campaign pitches</p><span class="go">Practise →</span></a>
-      <a href="#practice" data-field="finance"><span class="tl">3 rounds</span><h3>Finance &amp; banking</h3><p class="muted">Stock pitches and valuation, credit decisions</p><span class="go">Practise →</span></a>
-      <a href="#practice" data-field="operations"><span class="tl">3 rounds</span><h3>Operations &amp; supply chain</h3><p class="muted">Process and bottleneck cases, guesstimates</p><span class="go">Practise →</span></a>
-      <a href="#practice" data-field="hr"><span class="tl">3 rounds</span><h3>HR &amp; people</h3><p class="muted">People cases, situational judgement</p><span class="go">Practise →</span></a>
-      <a href="#practice" data-field="analytics"><span class="tl">4 rounds</span><h3>Business analytics</h3><p class="muted">Data cases, metrics, guesstimates</p><span class="go">Practise →</span></a>
-      <a href="#practice" data-field="general"><span class="tl">3 rounds</span><h3>General management</h3><p class="muted">Business cases, situational judgement</p><span class="go">Practise →</span></a>
-    </div>
-    <p class="fine">Every field also includes a behavioural (STAR) round.</p>
-    <div class="sec-head" style="margin-top:1rem"><h3 style="font-size:1.35rem">Preparing for a specific company?</h3><p>Practise in the interview format 40 recruiters publish, across consulting, tech, banking, FMCG and more, including McKinsey, BCG, PwC, EY, ZS, Amazon, Microsoft, Goldman Sachs, Morgan Stanley, HSBC, P&amp;G, Unilever, L&#39;Oréal, ITC and Tata (TAS). Search for yours. Each company page links to its source.</p><p class="fine">Second Take is independent and not affiliated with or endorsed by any of these companies. We don&#39;t promise any question will be asked in their interviews.</p></div>
-    <div class="cta-row"><a class="btn alt" href="#practice" data-mode-link="company">Practise by company</a></div>
-  </section>
 
   <div class="band">
     <div class="wrap">
@@ -1568,6 +1772,19 @@ footer .legal{grid-column:1/-1;font-family:var(--f-mono);font-size:.72rem;color:
     else{const n=$("#lnote");n.textContent="Saved.";n.hidden=false}});
   $("#lsignout").addEventListener("click",()=>{profile=null;try{localStorage.removeItem(PKEY)}catch(e){}loadStore();renderUserChip();$("#loginform").reset();location.hash="#home"});
 
+
+  // ---- home: today's prompt and question bank picks ----
+  function practiseItem(fk,rk,it){field=fk;mode="field";saveKey("secondtake.field",fk);saveKey("secondtake.mode","field");type=rk;renderModebar();renderFieldbar();renderBrief();renderTabs();$("#picker").hidden=true;$("#app").hidden=false;$("#fieldbar").hidden=false;setPrompt(it);location.hash="#practice"}
+  function renderHomeExtras(){
+    const T=[["product","product"],["case","consulting"],["mktcase","marketing"],["stock","finance"],["opscase","operations"],["hrcase","hr"],["analytics","analytics"],["guess","consulting"]];
+    const day=Math.floor(Date.now()/864e5),pick=T[day%T.length],gk=pick[0],fk=pick[1],n=(day*7919)%GEN[gk].total,it=genAt(gk,n);
+    $("#todayq").textContent=it.p;$("#todaymeta").textContent=FIELDS[fk].name+" · "+ROUNDS[gk].name+" · "+it.id;
+    $("#todaygo").onclick=()=>practiseItem(fk,gk,it);
+    const rows=BANK_ROWS.filter(x=>x.d!=="fit"),picks=[];for(let k=0;k<4;k++)picks.push(rows[(day*31+k*47)%rows.length]);
+    $("#homebank").innerHTML=picks.map(x=>'<article><span class="pill">'+esc(x.tag)+'</span><p class="qt">'+esc(x.q)+'</p><p class="qd">'+esc(BANK[x.d].name)+'</p><button type="button" data-hb="'+x.d+'|'+x.i+'">Practise this</button></article>').join("");
+    $$("#homebank [data-hb]").forEach(b=>b.onclick=()=>{const [d,i]=b.dataset.hb.split("|");practiseBank(d,+i)});
+  }
+
   // ---- progress view ----
   let confirming=false;
   function renderProgress(){
@@ -1634,6 +1851,7 @@ footer .legal{grid-column:1/-1;font-family:var(--f-mono);font-size:.72rem;color:
   $$("[data-count]").forEach(el=>el.textContent=fmtN(ALL_PROMPTS));
   $("#bankn").textContent=BANK_TOTAL;
   renderUserChip();
+  renderHomeExtras();
   initField();
   route();
   getSampler().then(sm=>{if(sm)$("#freshq").hidden=false});
