@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=Sora:wght@800&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@600&display=swap">
-<link rel="stylesheet" href="/styles.css?v=9fc568f1">
+<link rel="stylesheet" href="/styles.css?v=937364e1">
 <meta name="st-pathmode" content="1">
 <link rel="canonical" href="https://www.2secondtake.com/prep/rolandberger">
 <meta property="og:type" content="website">
@@ -220,7 +220,7 @@
         <button type="button" data-t="My phone is 9876543210, send me tips">Paste my phone number</button>
         <button type="button" data-sample="1">Load a sample answer</button>
       </div>
-      <p class="disclaim">Practice prompts and the sample answer are written for Second Take, not taken from any company. Your takes are saved only in this browser. If you use voice, your browser's own speech service (for example Google in Chrome) turns speech into text. Feedback has two layers: an instant checklist in your browser, and an expert review by Claude. On claude.ai the review runs on your own Claude account and asks your permission the first time. On 2secondtake.com you connect your own Claude to turn it on.</p>
+      <p class="disclaim">Practice prompts and the sample answer are written for Second Take, not taken from any company. Your takes (scores and the elements you missed, not your answers) are saved in your browser and backed up privately so you don&#39;t lose them. If you use voice, your browser's own speech service (for example Google in Chrome) turns speech into text. Feedback has two layers: an instant checklist in your browser, and an expert review by Claude. On claude.ai the review runs on your own Claude account and asks your permission the first time. On 2secondtake.com you connect your own Claude to turn it on.</p>
     </section>
   </div>
 </main>
@@ -283,11 +283,16 @@
           <div class="lact"><button class="btn" type="submit" id="lsubmit">Continue</button><button class="ghost" type="button" id="lsignout" hidden>Sign out on this device</button><span class="xnote" id="lnote" hidden></span></div>
         <div class="claudeconn" id="claudeconn"></div>
         </form>
+        <details class="restore" id="restorebox" hidden><summary>Practised on another device? Restore your progress</summary>
+          <form id="restoreform" novalidate><p class="xsmall">Enter the recovery code from My progress on your other device, or from the email you sent yourself.</p>
+            <div class="fld"><label for="rcode">Recovery code</label><input id="rcode" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXXX-XXXXX-XXXXX-XXXXX"><span class="err" id="rcodeerr" aria-live="polite"></span></div>
+            <div class="lact"><button class="btn sm" type="submit" id="rsubmit">Restore my progress</button><span class="xnote" id="rnote" hidden></span></div>
+          </form></details>
       </div>
       <aside class="lwhy">
         <h3>Where your details go</h3>
-        <p>Nowhere. Your profile is saved only in this browser, alongside your practice takes. Second Take has no server, so we can&#39;t see it and nobody else can either.</p>
-        <p>That also means there&#39;s no password: anyone using this browser sees your profile. On a shared computer, sign out when you&#39;re done.</p>
+        <div id="lwhy"><p>Your profile and practice results are saved in this browser and in a private backup, so they survive a cleared browser or a new device. Your answers themselves are never stored.</p>
+        <p>There&#39;s no password: anyone using this browser sees your profile. On a shared computer, sign out when you&#39;re done.</p></div>
         <p class="muted">We never ask for a CV, phone number or roll number.</p>
       </aside>
     </section>
@@ -297,7 +302,7 @@
 <!-- ============ PROGRESS ============ -->
 <main data-view="progress" hidden>
   <div class="wrap">
-    <div class="page-top"><p class="label">My progress</p><h2 id="proghead">My progress</h2><p class="progwho" id="progwho"></p><p class="muted" style="max-width:60ch">Your plan, your streak and the gaps you keep repeating. Most candidates lose marks on the same one or two elements every time; this page finds yours. Saved only in this browser.</p></div>
+    <div class="page-top"><p class="label">My progress</p><h2 id="proghead">My progress</h2><p class="progwho" id="progwho"></p><p class="muted" style="max-width:60ch">Your plan, your streak and the gaps you keep repeating. Most candidates lose marks on the same one or two elements every time; this page finds yours. Backed up privately, so you don&#39;t lose it.</p></div>
     <div id="prog"></div>
   </div>
 </main>
@@ -312,7 +317,7 @@
         <div><span class="x">2</span><div><h3>Never write or rewrite your answer</h3><p>A memorised answer collapses when the interviewer changes one word. We show you what's missing; you do the rewrite.</p></div></div>
         <div><span class="x">3</span><div><h3>Never predict whether you'll be selected</h3><p>Hiring depends on far more than one answer. We tell you how complete your structure is, nothing more.</p></div></div>
         <div><span class="x">4</span><div><h3>Never pass off practice prompts as real company material</h3><p>Every prompt is written for practice and labelled that way. We don&#39;t represent any company, and we never promise a question will come up in a company&#39;s interview.</p></div></div>
-        <div><span class="x">5</span><div><h3>Never send your personal details anywhere</h3><p>We ask only for your name, email, college and batch, to personalise your practice. They stay in your own browser with your takes; we have no server copy. We never ask for a CV, phone number or roll number, and you can sign out or delete your progress any time.</p></div></div>
+        <div><span class="x">5</span><div><h3>Never send your personal details anywhere</h3><p>We ask only for your name, email, college and batch, to personalise your practice. They&#39;re kept with your progress in your browser and in a private backup that only your recovery code (or, on claude.ai, your own Claude account) can open. We never sell or share them, never ask for a CV, phone number or roll number, and you can delete your backup any time.</p></div></div>
         <div><span class="x">6</span><div><h3>Never give feedback it can't point to</h3><p>Every tick and gap names the rubric element and the words that counted. No vague "great answer!"</p></div></div>
       </div>
     </section>
@@ -372,7 +377,8 @@
         <details><summary>Are you connected to these companies?</summary><p>No. Second Take is an independent practice tool. It does not represent, and is not affiliated with or endorsed by, any company named here. Company names are used only to describe how each company publicly says it interviews. We do not promise that these questions, or questions like them, will be asked in that company&#39;s interview.</p></details>
         <details><summary>How does company mode work?</summary><p>For 40 recruiters, we read how each company describes its own interviews on its official careers pages, and built practice rounds in that format. For example, Amazon's rounds check for its Leadership Principles and STAR with measurable results, and Deloitte's case follows its published five steps. Each company page shows the source link. The prompts are written by Second Take; they are not the company's actual questions.</p></details>
         <details><summary>Why won't it just show me a good answer?</summary><p>Because reading a polished answer feels like learning but isn't. You get better by finding your own gap and fixing it, which is exactly what each take makes you do.</p></details>
-        <details><summary>Where are my profile and answers stored?</summary><p>Only in your own browser on this device. When you sign in, your name, email, college and batch are saved there, next to your practice takes. Second Take has no server, so nothing is sent to us. There&#39;s no password, so sign out on shared computers. You can edit your profile, sign out, or clear your progress any time.</p></details>
+        <details><summary>Where are my profile and progress stored?</summary><p>In your browser, and in a private backup so you don&#39;t lose them. On 2secondtake.com, your profile and practice results (scores and which elements you missed) are backed up to private storage under a random recovery code that only you hold. Use the code to restore everything on a new phone or laptop. On claude.ai, your progress is saved privately to your own Claude account where your account allows it. The answers you type or speak are never stored; they&#39;re only sent to Claude when you ask for an expert review. You can delete your backup any time from My progress.</p></details>
+        <details><summary>I lost my phone or cleared my browser. Is my progress gone?</summary><p>No. On 2secondtake.com, open Sign in and choose &ldquo;Restore your progress&rdquo;, then enter your recovery code. You&#39;ll find the code on My progress, and you can email it to yourself from there. Keep it private, because anyone with the code can see your practice history. We don&#39;t use passwords, so we can&#39;t recover a lost code.</p></details>
         <details><summary>How does "Speak your answer" work?</summary><p>Where your browser allows it, for example Chrome or Edge on a site you open directly, Second Take listens and types your words as you speak. Where the microphone is blocked, including inside some embedded viewers, the Speak button switches to your device's own voice typing: Windows + H on Windows, the Fn key twice on a Mac, or the microphone key on a phone keyboard. Either way, your answer counts as spoken and gets a filler-word check.</p></details>
         <details><summary>How do I get the expert review on 2secondtake.com?</summary><p>Connect your own Claude, in one of two ways. Choose &ldquo;Open in Claude&rdquo; to copy your answer and open Second Take inside Claude, where the review runs free on your Claude account. Or paste an Anthropic API key from console.anthropic.com to run the review right on the website; the key stays in your browser, is sent only to Anthropic, and usage is billed to your Anthropic account. You can disconnect it any time from your profile.</p></details>
         <details><summary>Is the feedback from AI?</summary><p>Yes, in two layers. An instant checklist marks which parts of a strong answer you covered and shows the words that counted. Then an expert review by Claude reads your answer against what top interviewers expect in that domain, such as the 5 Cs for a credit case or a MECE profit tree for a business case. It quotes your exact words for every point, checks your numbers against the case facts, and gives a follow-up question and a drill. Quotes are checked against your answer, and any that don&#39;t match are dropped. The review never rewrites your answer. It runs on your own Claude account, so Claude asks your permission the first time.</p></details>
@@ -459,7 +465,7 @@
       <p class="serif" style="max-width:66ch;font-size:1.02rem">Answers are free-form speech: the same idea appears in many phrasings and orders, so judging them is a language task, and a self-ticked checklist only tests the self-assessment students lack. Errors are cheap because it&#39;s practice: a wrong critique costs one retry, and no hiring decision depends on it. AI is not needed for serving prompts, timing or tracking progress. It earns its place in the critique step, which now has two layers: a transparent keyword checklist that runs instantly and can be audited, and an expert review by Claude constrained by the never list. Every point must quote the answer, and the page drops any quote it can&#39;t find, so the model can&#39;t invent evidence.</p>
       <h3>Behaviour spec · the never list is on <a href="/promise">Our promise</a>, written first</h3>
       <div class="spec">
-        <div class="i"><p class="label" style="color:var(--ok)">Intended</p><ul><li>Serves a labelled practice prompt for the chosen type.</li><li>Marks each rubric element covered or missing, with the evidence phrase.</li><li>Flags order problems.</li><li>Ends with one coaching question; shows the change on retry.</li><li>Accepts typed or spoken answers; counts filler words in spoken ones.</li><li>Sign-in profile (name, email, college, batch) is stored only in the browser and personalises the progress tracker; progress is kept per profile.</li><li>Expert review: domain-specific feedback with scores on 4 dimensions, gaps ordered by impact, an arithmetic and facts check, a follow-up question and a drill.</li><li>The student picks one of 8 fields; rounds, prompts and rubrics are tailored to it.</li><li>Over 2.3 million generated prompts from domain templates, each with an ID; case prompts get consistent interviewer facts; Claude can write fresh prompts on demand.</li><li>Question bank: about 200 standard questions written in Second Take&#39;s own words and watermarked, with new Technical concepts and HR &amp; fit rounds; company material is linked, never copied.</li><li>Case rounds: the candidate may ask the interviewer up to two questions. Replies come only from fixed case facts; anything else is "not available, make an assumption".</li><li>Tracks recurring gaps on the device.</li></ul></div>
+        <div class="i"><p class="label" style="color:var(--ok)">Intended</p><ul><li>Serves a labelled practice prompt for the chosen type.</li><li>Marks each rubric element covered or missing, with the evidence phrase.</li><li>Flags order problems.</li><li>Ends with one coaching question; shows the change on retry.</li><li>Accepts typed or spoken answers; counts filler words in spoken ones.</li><li>Sign-in profile (name, email, college, batch) personalises the progress tracker; progress is kept per profile in the browser and backed up privately (a recovery-code-keyed private store on the website, the person&#39;s own Claude account on claude.ai). Answers themselves are never stored.</li><li>Expert review: domain-specific feedback with scores on 4 dimensions, gaps ordered by impact, an arithmetic and facts check, a follow-up question and a drill.</li><li>The student picks one of 8 fields; rounds, prompts and rubrics are tailored to it.</li><li>Over 2.3 million generated prompts from domain templates, each with an ID; case prompts get consistent interviewer facts; Claude can write fresh prompts on demand.</li><li>Question bank: about 200 standard questions written in Second Take&#39;s own words and watermarked, with new Technical concepts and HR &amp; fit rounds; company material is linked, never copied.</li><li>Case rounds: the candidate may ask the interviewer up to two questions. Replies come only from fixed case facts; anything else is "not available, make an assumption".</li><li>Tracks recurring gaps on the device.</li></ul></div>
         <div class="r"><p class="label" style="color:var(--accent)">Refusal</p><ul><li>Names the request, gives a one-sentence reason, offers the nearest useful alternative.</li><li>Never ends the session.</li><li>Triggers: company-question prediction, rewrites or model answers, selection prediction.</li><li>The expert reviewer gets the never list as hard rules; hints describe what to add, never phrasing. The page drops any quote not found in the answer.</li><li>Company mode: uses only formats a company publishes itself, links the source, and labels every prompt as Second Take's own.</li></ul></div>
         <div class="f"><p class="label" style="color:var(--warn)">Failure</p><ul><li>No rubric elements: flags possible off-topic.</li><li>Personal data: asks for removal, processes nothing.</li><li>All elements present: the expert review judges depth; a senior is still the final judge.</li><li>Expert review unavailable or declined: says so plainly; the instant checklist still works.</li><li>Mic blocked: switches to the device's own voice typing with OS-specific steps; typing always works.</li></ul></div>
       </div>
@@ -483,7 +489,7 @@
 </footer>
 
 <script src="/data.js?v=a43a008e"></script>
-<script src="/app.js?v=490c12e2"></script>
+<script src="/app.js?v=1ea0d09b"></script>
 
 </body>
 </html>

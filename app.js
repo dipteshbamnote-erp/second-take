@@ -114,7 +114,7 @@
   let store=[];
   function loadStore(){try{store=JSON.parse(localStorage.getItem(storeKey())||"[]");if(!Array.isArray(store))store=[]}catch(e){store=[]}}
   loadStore();
-  function save(){try{localStorage.setItem(storeKey(),JSON.stringify(store.slice(-300)))}catch(e){}}
+  function save(){try{localStorage.setItem(storeKey(),JSON.stringify(store.slice(-2000)))}catch(e){}scheduleSync()}
 
   // ---- state ----
   const ta=$("#answer"), rv=$("#review"), qEl=$("#q");
@@ -472,6 +472,13 @@
     const cc=$("#claudeconn"),k=getKey();cc.innerHTML=k?'<p class="label">Claude connection</p><p>Expert review on this website uses your Anthropic API key ending ••••'+esc(k.slice(-4))+'. It\'s stored only in this browser.</p><button type="button" class="ghost" id="lkeyrm">Disconnect key</button>':'';
     const kr=$("#lkeyrm");if(kr)kr.onclick=()=>{setKey("");renderLogin()};
     f.querySelectorAll(".err").forEach(e=>e.textContent="");$("#lnote").hidden=true;
+    const rb=$("#restorebox");rb.hidden=!(cloud.mode==="web"&&!on);
+    const m=(location.hash||"").match(/^#restore=([A-Za-z0-9-]+)$/);
+    if(m&&!rb.hidden){$("#rcode").value=fmtCode(normCode(m[1]));rb.open=true;try{window.history.replaceState({},"",location.pathname)}catch(e){}}
+    $("#rnote").hidden=true;$("#rcodeerr").textContent="";
+    $("#lwhy").innerHTML=cloud.mode==="web"?'<p>Your profile and practice results (scores and which elements you missed) are saved in this browser and backed up to Second Take&#39;s private storage under a random recovery code that only you hold. That&#39;s how your progress survives a cleared browser or a new laptop. Your answers themselves are never stored.</p><p>Nobody can open your backup without the code, and you can delete it any time from My progress. There&#39;s no password, so on a shared computer, sign out when you&#39;re done.</p>'
+      :cloud.mode==="claude"?'<p>Your profile and practice results are saved in this browser and privately in your own Claude account, so they follow you to any device where you open Second Take on claude.ai. Nobody else can see them, including the page&#39;s owner. Your answers themselves are never stored.</p>'
+      :'<p>Your profile and practice results are saved in this browser. To keep them safe across devices, use Second Take at 2secondtake.com, where they&#39;re backed up privately, or download a copy from My progress. Your answers themselves are never stored.</p><p>There&#39;s no password: on a shared computer, sign out when you&#39;re done.</p>';
   }
   function validLogin(){
     const v={name:$("#lname").value.trim(),email:$("#lemail").value.trim(),college:$("#lcollege").value.trim(),batch:$("#lbatch").value.trim()};let ok=true;
@@ -484,10 +491,11 @@
     return ok?v:null}
   $("#loginform").addEventListener("submit",e=>{e.preventDefault();const v=validLogin();if(!v)return;
     const firstTime=!profile;let legacy=null;try{legacy=localStorage.getItem(KEY)}catch(e){}
-    profile={name:v.name,email:v.email,college:v.college,batch:v.batch,since:profile&&profile.since||Date.now()};
+    profile={name:v.name,email:v.email,college:v.college,batch:v.batch,since:profile&&profile.since||Date.now(),u:Date.now()};
     try{localStorage.setItem(PKEY,JSON.stringify(profile))}catch(e){}
+    ensureCode();
     try{if(firstTime&&legacy&&!localStorage.getItem(storeKey())){localStorage.setItem(storeKey(),legacy);localStorage.removeItem(KEY)}}catch(e){}
-    loadStore();renderUserChip();
+    loadStore();renderUserChip();scheduleSync(firstTime?0:1200);
     if(firstTime||pendingView){const nv=pendingView||"practice";pendingView=null;go(nv)}
     else{const n=$("#lnote");n.textContent="Saved.";n.hidden=false}});
   $("#lsignout").addEventListener("click",()=>{profile=null;try{localStorage.removeItem(PKEY)}catch(e){}loadStore();renderUserChip();$("#loginform").reset();renderStreakLine();go("home")});
@@ -513,7 +521,8 @@
   let confirming=false, planEditing=false;
   const planKey=()=>"secondtake.plan"+(profile?":"+profile.email.toLowerCase():"");
   function getPlan(){try{const p=JSON.parse(localStorage.getItem(planKey())||"null");return p&&p.date?p:null}catch(e){return null}}
-  function setPlan(p){try{p?localStorage.setItem(planKey(),JSON.stringify(p)):localStorage.removeItem(planKey())}catch(e){}}
+  function setPlanRaw(p){try{p?localStorage.setItem(planKey(),JSON.stringify(p)):localStorage.removeItem(planKey())}catch(e){}}
+  function setPlan(p){if(p)p.u=Date.now();setPlanRaw(p);scheduleSync()}
   const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
   function daysUntil(s){const t=new Date(s+"T00:00:00"),n=new Date();n.setHours(0,0,0,0);return Math.round((t-n)/864e5)}
   function topGap(st){const cnt={};st.forEach(r=>(r.miss||[]).forEach(k=>cnt[k]=(cnt[k]||0)+1));const e=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];return e?e[0]:null}
@@ -556,7 +565,7 @@
   function saveFile(name,type,data){try{const u=URL.createObjectURL(new Blob([data],{type}));const a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);return true}catch(e){return false}}
   function exportProgress(){const ok=saveFile("second-take-progress-"+ymd(new Date())+".json","application/json",JSON.stringify({app:"secondtake",v:1,exported:new Date().toISOString(),profile,plan:getPlan(),takes:store},null,1));const n=$("#movenote");if(n){n.textContent=ok?"Downloaded. On your other device, sign in with the same email and choose Import progress.":"This view blocked the download. Try it on www.2secondtake.com.";n.hidden=false}}
   function importProgress(file){const n=$("#movenote");const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||d.app!=="secondtake"||!Array.isArray(d.takes))throw 0;
-      const seen=new Set(store.map(x=>x.ts+"|"+x.p));let added=0;d.takes.forEach(x=>{if(x&&typeof x.ts==="number"&&typeof x.s==="number"&&typeof x.n==="number"&&x.ty&&!seen.has(x.ts+"|"+x.p)){store.push({f:String(x.f||""),ty:String(x.ty),p:String(x.p||"").slice(0,600),s:x.s,n:x.n,miss:Array.isArray(x.miss)?x.miss.filter(k=>C[k]):[],ts:x.ts,v:x.v?1:0});added++}});
+      const seen=new Set(store.map(x=>x.ts));let added=0;d.takes.forEach(x=>{if(x&&typeof x.ts==="number"&&typeof x.s==="number"&&typeof x.n==="number"&&x.ty&&!seen.has(x.ts)){seen.add(x.ts);store.push({f:String(x.f||""),ty:String(x.ty),p:String(x.p||"").slice(0,600),s:x.s,n:x.n,miss:Array.isArray(x.miss)?x.miss.filter(k=>C[k]):[],ts:x.ts,v:x.v?1:0});added++}});
       store.sort((a,b)=>a.ts-b.ts);save();if(d.plan&&d.plan.date&&!getPlan())setPlan(d.plan);renderProgress();const m=$("#movenote");if(m){m.textContent="Imported "+added+" take"+(added===1?"":"s")+".";m.hidden=false}}catch(e){if(n){n.textContent="That file isn't a Second Take progress file.";n.hidden=false}}};r.readAsText(file)}
   function moveHTML(){return '<div class="move"><span class="label">Move to another device</span><button class="ghost" type="button" id="mexp">Download my progress</button><label class="ghost" style="cursor:pointer">Import progress<input type="file" id="mimp" accept=".json,application/json" class="sr"></label><span class="xsmall" id="movenote" hidden></span></div>'}
   function wireMove(){const e=$("#mexp");if(e)e.onclick=exportProgress;const i=$("#mimp");if(i)i.onchange=()=>{if(i.files&&i.files[0])importProgress(i.files[0])}}
@@ -569,7 +578,7 @@
   function renderProgress(){
     const el=$("#prog");
     if(profile){$("#proghead").textContent=firstName()+"'s progress";$("#progwho").innerHTML=esc(profile.name)+" · "+esc(profile.college)+" · "+esc(profile.batch)+' · <a href="#login">Edit profile</a>'}
-    if(!store.length){el.innerHTML='<div style="display:grid;gap:1.5rem;padding-bottom:3rem">'+planHTML()+'<div class="empty"><h3>No takes yet</h3><p class="muted">Answer your first practice prompt and your recurring gaps will start showing up here.</p><a class="btn" href="#practice">Start practising</a></div>'+moveHTML()+'</div>';wirePlan();wireMove();return}
+    if(!store.length){el.innerHTML='<div style="display:grid;gap:1.5rem;padding-bottom:3rem">'+planHTML()+backupHTML()+'<div class="empty"><h3>No takes yet</h3><p class="muted">Answer your first practice prompt and your recurring gaps will start showing up here.</p><a class="btn" href="#practice">Start practising</a></div>'+moveHTML()+'</div>';wirePlan();wireMove();wireBackup();return}
     const total=store.length;
     const avg=Math.round(store.reduce((a,r)=>a+r.s/r.n,0)/total*100);
     const days=[...new Set(store.map(r=>new Date(r.ts).toDateString()))];
@@ -586,11 +595,11 @@
       weeklyHTML()+
       '<div class="prog-grid"><div class="panel"><h3>Gaps you repeat</h3>'+(gaps.length?gaps.map(([k,c])=>'<div class="gapbar"><span>'+esc(C[k].name)+'</span><span class="c">'+c+'×</span><div class="bar"><i style="width:'+Math.round(c/maxg*100)+'%"></i></div></div>').join(""):'<p class="muted">None yet.</p>')+'</div>'+
       '<div class="panel"><h3>Recent takes</h3><div class="takes">'+recent.map(r=>'<div class="tk"><span>'+esc(srcLabel(r.f)+((ROUNDS[r.ty]||{}).name||r.ty))+' · '+new Date(r.ts).toLocaleDateString(undefined,{day:"numeric",month:"short"})+(r.v?" · spoken":"")+'</span><span>'+r.s+' / '+r.n+'</span></div>').join("")+'</div></div></div>'+
-      '<div class="confirm" id="clr">'+(confirming?'<span>Delete all '+total+' takes from this browser? This can\'t be undone.</span><button class="ghost" id="clryes" type="button">Delete</button><button class="ghost" id="clrno" type="button">Keep</button>':'<button class="ghost" id="clrbtn" type="button">Clear my progress</button><span class="muted" style="font-size:.84rem">Stored only in this browser.</span>')+'</div>'+
-      moveHTML()+'</div>';
-    wirePlan();wireMove();
+      '<div class="confirm" id="clr">'+(confirming?'<span>Delete all '+total+' takes, here and in your backup? This can\'t be undone.</span><button class="ghost" id="clryes" type="button">Delete</button><button class="ghost" id="clrno" type="button">Keep</button>':'<button class="ghost" id="clrbtn" type="button">Clear my progress</button><span class="muted" style="font-size:.84rem">Stored only in this browser.</span>')+'</div>'+
+      backupHTML()+moveHTML()+'</div>';
+    wirePlan();wireMove();wireBackup();
     const b=$("#clrbtn"); if(b) b.onclick=()=>{confirming=true;renderProgress()};
-    const y=$("#clryes"); if(y) y.onclick=()=>{store=[];save();confirming=false;renderProgress();renderStreakLine()};
+    const y=$("#clryes"); if(y) y.onclick=()=>{try{localStorage.setItem(clearKey(),String(Date.now()))}catch(e){}store=[];save();confirming=false;renderProgress();renderStreakLine()};
     const nn=$("#clrno"); if(nn) nn.onclick=()=>{confirming=false;renderProgress()};
   }
 
@@ -610,7 +619,7 @@
     faq:["FAQ · Second Take","Answers to common questions about Second Take, the MBA interview practice tool."],
     founder:["Our story · Second Take","Why Diptesh built Second Take: a note from the founder."],
     notes:["Product notes · Second Take","The product thinking behind Second Take: problem memo, AI-worthiness and behaviour spec."],
-    login:["Your profile · Second Take","Set up your Second Take profile. It stays in your browser."]};
+    login:["Your profile · Second Take","Set up your Second Take profile, or restore your progress with your recovery code."]};
   function parseLoc(){let raw=PATHMODE?location.pathname.replace(/^\/+|\/+$/g,"").replace(/\.html$/,""):location.hash.slice(1);
     if(PATHMODE&&!raw&&location.hash.length>1)raw=location.hash.slice(1);
     if(raw==="index")raw="";const parts=raw.split("/");return {v:VIEWS.includes(parts[0])?parts[0]:"home",sub:parts[1]||""}}
@@ -648,6 +657,108 @@
     if(v!==""&&!VIEWS.includes(v.split("/")[0]))return;
     e.preventDefault();go(v||"home");
   });
+  // ---- backup: website (private Vercel Blob via /api/progress) or claude.ai (the viewer's own Claude account) ----
+  const SYNC_ALPHA="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const emailKey=()=>profile?":"+String(profile.email).toLowerCase():"";
+  const syncKey=()=>"secondtake.sync"+emailKey(), offKey=()=>"secondtake.syncoff"+emailKey(), clearKey=()=>"secondtake.cleared"+emailKey();
+  const cloud={mode:PATHMODE?"web":"none",state:"idle",at:0};
+  let dbRef=null,syncTimer=null,syncing=false,syncAgain=false,showCode=false,delConfirm=false;
+  const lsGet=k=>{try{return localStorage.getItem(k)||""}catch(e){return ""}}, lsSet=(k,v)=>{try{v?localStorage.setItem(k,v):localStorage.removeItem(k)}catch(e){}};
+  const getCode=()=>lsGet(syncKey()), setCode=c=>lsSet(syncKey(),c), isOff=()=>lsGet(offKey())==="1", getCleared=()=>+lsGet(clearKey())||0;
+  function newCode(){const a=new Uint8Array(20);crypto.getRandomValues(a);return Array.from(a,x=>SYNC_ALPHA[x%32]).join("")}
+  const normCode=c=>String(c||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const fmtCode=c=>c.replace(/(.{5})(?=.)/g,"$1-");
+  function ensureCode(){if(cloud.mode==="web"&&profile&&!getCode()&&!isOff())setCode(newCode())}
+  function mergeIn(d){
+    if(!d||!profile)return;
+    const cl=Math.max(getCleared(),+d.clearedAt||0);if(cl>getCleared())lsSet(clearKey(),String(cl));
+    const seen=new Set(),all=[];
+    [...store,...(Array.isArray(d.takes)?d.takes:[])].forEach(t=>{if(t&&typeof t.ts==="number"&&t.ts>cl&&!seen.has(t.ts)){seen.add(t.ts);all.push(t)}});
+    all.sort((a,b)=>a.ts-b.ts);const changed=all.length!==store.length;store=all;
+    try{localStorage.setItem(storeKey(),JSON.stringify(store.slice(-2000)))}catch(e){}
+    if(d.profile&&d.profile.email&&String(d.profile.email).toLowerCase()===String(profile.email).toLowerCase()&&(d.profile.u||0)>(profile.u||0)){profile=Object.assign({},profile,d.profile);lsSet(PKEY,JSON.stringify(profile));renderUserChip()}
+    const lp=getPlan();if(d.plan&&d.plan.date&&(!lp||(d.plan.u||0)>(lp.u||0)))setPlanRaw(d.plan);
+    if(changed){renderStreakLine();if(lastView&&lastView.indexOf("progress")===0)renderProgress()}
+  }
+  function claudeDoc(){return {v:1,profile,plan:getPlan(),clearedAt:getCleared(),takes:store.slice(-600).map(t=>Object.assign({},t,{p:String(t.p||"").slice(0,200)})),updated:Date.now()}}
+  function scheduleSync(delay){if(!profile||cloud.mode==="none"||(cloud.mode==="web"&&(isOff()||!getCode())))return;clearTimeout(syncTimer);syncTimer=setTimeout(syncNow,delay==null?1200:delay)}
+  async function syncNow(){
+    if(syncing){syncAgain=true;return}
+    if(!profile||cloud.mode==="none")return;
+    syncing=true;cloud.state="saving";renderCloudStatus();
+    try{
+      if(cloud.mode==="web"){const code=getCode();if(!code||isOff()){cloud.state="off";return}
+        const r=await fetch("/api/progress",{method:"PUT",headers:{"content-type":"application/json",authorization:"Bearer "+code},body:JSON.stringify({profile,plan:getPlan(),clearedAt:getCleared(),takes:store})});
+        if(!r.ok)throw new Error("http_"+r.status);const j=await r.json();mergeIn(j.data);}
+      else{const d=await dbRef.get();if(d.exists)mergeIn(d.data());await dbRef.set(claudeDoc());}
+      cloud.state="ok";cloud.at=Date.now();lsSet("secondtake.syncedAt"+emailKey(),String(cloud.at));
+    }catch(e){
+      if(cloud.mode==="claude"&&e&&e.code==="invalid_argument"){cloud.mode="none";cloud.state="readonly"}else cloud.state="error";
+    }finally{syncing=false;renderCloudStatus();if(syncAgain){syncAgain=false;scheduleSync(300)}}
+  }
+  async function restoreFromCode(raw){
+    const code=normCode(raw);if(!/^[A-HJ-NP-Z2-9]{20}$/.test(code))return {err:"That doesn't look like a recovery code. It has 20 letters and numbers, like ABCDE-FGHJK-LMNPQ-RSTUV."};
+    try{const r=await fetch("/api/progress",{headers:{authorization:"Bearer "+code}});
+      if(r.status===404)return {err:"No saved progress matches that code. Check it and try again."};
+      if(!r.ok)throw 0;const j=await r.json(),d=j.data;if(!d||!d.profile)return {err:"No saved profile was found for that code."};
+      profile=Object.assign({},d.profile);lsSet(PKEY,JSON.stringify(profile));setCode(code);lsSet(offKey(),"");
+      loadStore();mergeIn(d);renderUserChip();cloud.state="ok";cloud.at=Date.now();return {ok:true,n:store.length};
+    }catch(e){return {err:"Couldn't reach Second Take just now. Check your connection and try again."}}
+  }
+  function cloudLine(){
+    const t=cloud.at?new Date(cloud.at).toLocaleString(undefined,{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}):"";
+    if(cloud.mode==="web"){if(isOff())return["off","Backup is off. Your progress is only in this browser."];
+      if(cloud.state==="saving")return["saving","Saving your progress…"];
+      if(cloud.state==="error")return["error","Not backed up yet. We'll try again when you're online."+(t?" Last backup: "+t+".":"")];
+      return["ok",t?"Backed up · last saved "+t:"Backup is on. Your next take will be saved."]}
+    if(cloud.mode==="claude"){if(cloud.state==="saving")return["saving","Saving to your Claude account…"];if(cloud.state==="error")return["error","Couldn't save to your Claude account just now. We'll try again."];return["ok","Saved to your Claude account"+(t?" · "+t:"")]}
+    if(cloud.state==="readonly")return["readonly","Your Claude account can only view this page, so progress stays in this browser."];
+    return["off","Saved in this browser only."];
+  }
+  function renderCloudStatus(){const el=$("#cloudstatus");if(!el)return;const [k,txt]=cloudLine();el.className="bstat "+k;el.innerHTML='<i aria-hidden="true"></i><span>'+esc(txt)+'</span>'}
+  function backupHTML(){
+    const [k,txt]=cloudLine(),stat='<p class="bstat '+k+'" id="cloudstatus" role="status"><i aria-hidden="true"></i><span>'+esc(txt)+'</span></p>';
+    if(cloud.mode==="web"){
+      if(isOff()||!getCode())return '<div class="backup"><div><p class="label">Backup</p><h3>Keep your progress safe</h3></div>'+stat+'<p class="muted" style="font-size:.92rem">Turn backup on to save your progress privately, so a cleared browser or a new laptop doesn\'t wipe it.</p><div class="planrow"><button class="btn sm" type="button" id="bon">Turn backup on</button></div></div>';
+      const c=fmtCode(getCode()),shown=showCode?c:c.slice(0,5)+"-•••••-•••••-•••••";
+      return '<div class="backup"><div><p class="label">Backup</p><h3>Your progress is backed up</h3></div>'+stat+
+        '<div><p style="font-size:.92rem;margin:0 0 .5rem">Your recovery code. Use it to restore your progress on a new phone or laptop (Sign in → Restore your progress).</p><div class="bcode"><code id="bcode">'+esc(shown)+'</code><button class="ghost" type="button" id="bshow">'+(showCode?"Hide":"Show")+'</button><button class="ghost" type="button" id="bcopy">Copy</button><a class="ghost" id="bmail" href="mailto:'+encodeURIComponent(profile.email)+'?subject='+encodeURIComponent("Your Second Take recovery code")+'&body='+encodeURIComponent("Your Second Take recovery code: "+c+"\n\nTo restore your progress on another device, open this link:\nhttps://www.2secondtake.com/login#restore="+getCode()+"\n\nKeep this code private. Anyone with it can see your practice history.")+'">Email it to myself</a></div><p class="xsmall" id="bnote" hidden></p></div>'+
+        '<p class="xsmall">Keep the code private: anyone with it can see your practice history. We don\'t use passwords, so we can\'t recover a lost code. We store your profile, plan and practice results (scores and missed elements), never your answers.</p>'+
+        '<div class="confirm">'+(delConfirm?'<span>Delete your backup from Second Take\'s storage? Your progress stays in this browser.</span><button class="ghost" type="button" id="bdelyes">Delete backup</button><button class="ghost" type="button" id="bdelno">Keep</button>':'<button class="ghost" type="button" id="bdel">Delete my backup</button>')+'</div></div>';
+    }
+    if(cloud.mode==="claude")return '<div class="backup"><div><p class="label">Backup</p><h3>Saved to your Claude account</h3></div>'+stat+'<p class="muted" style="font-size:.92rem">Open Second Take on claude.ai on any device, signed in to the same Claude account, and your plan and progress follow you. Nobody else can see them, including the page\'s owner.</p></div>';
+    return '<div class="backup"><div><p class="label">Backup</p><h3>Keep your progress safe</h3></div>'+stat+'<p class="muted" style="font-size:.92rem">'+(cloud.state==="readonly"?"To keep your progress safe across devices, practise at <a href=\"https://www.2secondtake.com\" target=\"_blank\" rel=\"noopener\">2secondtake.com</a>, where it's backed up privately, or download a copy below.":"Practise at <a href=\"https://www.2secondtake.com\" target=\"_blank\" rel=\"noopener\">2secondtake.com</a> to back up your progress privately, or download a copy below.")+'</p></div>';
+  }
+  function wireBackup(){
+    const on=$("#bon");if(on)on.onclick=()=>{lsSet(offKey(),"");if(!getCode())setCode(newCode());cloud.state="idle";renderProgress();syncNow()};
+    const sh=$("#bshow");if(sh)sh.onclick=()=>{showCode=!showCode;renderProgress()};
+    const cp=$("#bcopy");if(cp)cp.onclick=async()=>{const n=$("#bnote");try{await navigator.clipboard.writeText(fmtCode(getCode()));n.textContent="Copied. Save it somewhere safe, like your notes app."}catch(e){showCode=true;renderProgress();const m=$("#bnote");if(m){m.textContent="Copy didn't work here. Select the code and copy it.";m.hidden=false}return}n.hidden=false};
+    const d=$("#bdel");if(d)d.onclick=()=>{delConfirm=true;renderProgress()};
+    const dn=$("#bdelno");if(dn)dn.onclick=()=>{delConfirm=false;renderProgress()};
+    const dy=$("#bdelyes");if(dy)dy.onclick=async()=>{dy.disabled=true;try{const r=await fetch("/api/progress",{method:"DELETE",headers:{authorization:"Bearer "+getCode()}});if(!r.ok)throw 0;lsSet(offKey(),"1");setCode("");cloud.state="off";delConfirm=false;renderProgress()}catch(e){delConfirm=false;renderProgress();const n=$("#bnote");if(n){n.textContent="Couldn't delete just now. Check your connection and try again.";n.hidden=false}}};
+  }
+  $("#restoreform").addEventListener("submit",async e=>{e.preventDefault();const b=$("#rsubmit"),er=$("#rcodeerr");er.textContent="";b.disabled=true;b.textContent="Restoring…";
+    const r=await restoreFromCode($("#rcode").value);b.disabled=false;b.textContent="Restore my progress";
+    if(r.err){er.textContent=r.err;return}
+    const nv=pendingView||"progress";pendingView=null;go(nv);});
+  async function cloudInit(){
+    if(PATHMODE){cloud.at=+lsGet("secondtake.syncedAt"+emailKey())||0;ensureCode();if(profile&&getCode()&&!isOff())syncNow();
+      window.addEventListener("online",()=>scheduleSync(0));
+      document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")scheduleSync(0)});return}
+    if(!(window.claude&&typeof window.claude.use==="function"))return;
+    try{
+      const [db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);if(!db||!user)return;
+      const id=await user.id();if(!id)return;
+      dbRef=db.doc("data/users/"+id+"/progress");cloud.mode="claude";
+      const d=await dbRef.get(),data=d.exists?d.data():null;
+      if(data&&!profile&&data.profile&&data.profile.name&&data.profile.email){profile=Object.assign({},data.profile);lsSet(PKEY,JSON.stringify(profile));loadStore();renderUserChip();
+        if(pendingView&&parseLoc().v==="login"){const nv=pendingView;pendingView=null;go(nv)}}
+      const before=store.length;if(data)mergeIn(data);
+      cloud.state="ok";cloud.at=data&&data.updated||0;
+      if(profile&&(!data||store.length>((data.takes||[]).length)||before>((data.takes||[]).length)))scheduleSync(0);
+      renderCloudStatus();if(lastView&&/^(progress|login)/.test(lastView)){lastView.indexOf("login")===0?renderLogin():renderProgress()}
+    }catch(e){cloud.mode="none";cloud.state=e&&e.code==="invalid_argument"?"readonly":"idle"}
+  }
   // ---- mobile menu + skip link ----
   const navEl=document.querySelector("nav.top"), menuBtn=$("#menubtn");
   function closeMenu(){if(navEl&&navEl.classList.contains("open")){navEl.classList.remove("open");menuBtn.setAttribute("aria-expanded","false")}}
@@ -680,5 +791,6 @@
   renderHomeExtras();
   initField();
   route();
+  cloudInit();
   getSampler().then(sm=>{if(sm)$("#freshq").hidden=false});
 })();
